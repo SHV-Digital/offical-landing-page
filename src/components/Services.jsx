@@ -27,45 +27,20 @@ const cardVariants = {
   },
 };
 
-const services = [
-  {
-    icon: Code,
-    title: "Desenvolvimento de software sob medida",
-    description:
-      "Aplicações web e sistemas desenvolvidos de acordo com o contexto real do negócio, com foco em qualidade, performance e manutenibilidade.",
-  },
-  {
-    icon: Layers,
-    title: "Arquitetura e evolução de sistemas",
-    description:
-      "Definição e melhoria de arquiteturas escaláveis, seguras e preparadas para crescer sem comprometer o futuro do produto.",
-  },
-  {
-    icon: Cpu,
-    title: "Automação e eficiência",
-    description:
-      "Automação de processos, integrações e fluxos que reduzem custos operacionais e aumentam produtividade.",
-  },
-  {
-    icon: Sparkles,
-    title: "Produtos digitais",
-    description:
-      "Criação e evolução de produtos digitais com atenção extrema à experiência do usuário, performance e acabamento final.",
-  },
-];
+const icons = [Code, Layers, Cpu, Sparkles];
 
-export default function Services() {
+export default function Services({ content }) {
   return (
     <section id="servicos" className="relative py-40">
       {/* Subtle background texture */}
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-purple/10 blur-[160px]" />
       </div>
       <div className="relative mx-auto max-w-6xl px-6">
         {/* Header */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, margin: "-120px" }}
           className="mb-20 mx-auto max-w-3xl text-center"
@@ -74,28 +49,27 @@ export default function Services() {
             variants={cardVariants}
             className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight"
           >
-            Serviços
+            {content.title}
           </motion.h2>
 
           <motion.p
             variants={cardVariants}
             className="mt-6 text-lg leading-relaxed text-neutral-400"
           >
-            Atuamos em todo o ciclo de construção de software, da estratégia
-            técnica à entrega de produtos digitais sólidos e bem acabados.
+            {content.description}
           </motion.p>
         </motion.div>
 
         {/* Cards */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, margin: "-120px" }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {services.map((service, index) => {
-            const Icon = service.icon;
+          {content.cards.map((service, index) => {
+            const Icon = icons[index];
             return (
               <motion.div
                 key={service.title}
