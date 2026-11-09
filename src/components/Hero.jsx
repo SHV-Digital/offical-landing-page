@@ -22,7 +22,7 @@ const itemVariants = {
   },
 };
 
-export default function Hero() {
+export default function Hero({ content }) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
       {/* Background gradients */}
@@ -34,7 +34,7 @@ export default function Hero() {
 
       <motion.div
         variants={containerVariants}
-        initial="hidden"
+        initial={false}
         animate="visible"
         className="relative z-10 max-w-5xl text-center"
       >
@@ -42,17 +42,17 @@ export default function Hero() {
           variants={itemVariants}
           className="mb-6 inline-block rounded-full border border-neutral-800 bg-neutral-900/60 px-5 py-2 text-sm text-neutral-300 backdrop-blur"
         >
-          Onde software é levado a sério
+          {content.badge}
         </motion.p>
 
         <motion.h1
           variants={itemVariants}
           className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight"
         >
-          Construímos software
+          {content.title}
           <span className="block mt-4 text-neutral-400">
-            com engenharia responsável
-            <br className="hidden md:block" /> e visão de longo prazo
+            {content.line1}
+            <br className="hidden md:block" /> {content.line2}
           </span>
         </motion.h1>
 
@@ -60,9 +60,7 @@ export default function Hero() {
           variants={itemVariants}
           className="mt-10 text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl mx-auto"
         >
-          Projetamos e desenvolvemos sistemas digitais sob medida, com foco em
-          arquitetura sólida, decisões técnicas conscientes e produtos preparados
-          para evoluir com segurança.
+          {content.description}
         </motion.p>
 
         <motion.div
@@ -73,7 +71,7 @@ export default function Hero() {
             href="mailto:contato@shvdigital.com.br"
             className="group relative inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-medium text-neutral-950 transition hover:scale-[1.02]"
           >
-            Entrar em contato
+            {content.cta}
             <span className="absolute inset-0 rounded-full bg-white/20 opacity-0 blur transition group-hover:opacity-100" />
           </a>
         </motion.div>

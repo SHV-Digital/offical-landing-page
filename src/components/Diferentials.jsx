@@ -28,34 +28,9 @@ const cardVariants = {
   },
 };
 
-const items = [
-  {
-    icon: ShieldCheck,
-    title: "Engenharia de verdade",
-    description:
-      "Código sólido, decisões técnicas conscientes e foco em qualidade desde a primeira linha.",
-  },
-  {
-    icon: Layers,
-    title: "Arquitetura pensada para crescer",
-    description:
-      "Soluções desenhadas para evoluir com o negócio, evitando retrabalho e limitações futuras.",
-  },
-  {
-    icon: Sparkles,
-    title: "Experiência e acabamento",
-    description:
-      "Cuidado extremo com UI, UX, performance e detalhes que elevam a percepção do produto.",
-  },
-  {
-    icon: Handshake,
-    title: "Parceria real",
-    description:
-      "Atuamos como extensão do time, com transparência, proximidade e visão de longo prazo.",
-  },
-];
+const icons = [ShieldCheck, Layers, Sparkles, Handshake];
 
-export default function Differentials() {
+export default function Differentials({ content }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   return (
@@ -66,30 +41,29 @@ export default function Differentials() {
       </div>
       <div className="relative mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mb-20 mx-auto max-w-3xl text-center"
         >
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
-            Diferenciais
+            {content.title}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-neutral-400">
-            Mais do que desenvolver software, entregamos clareza técnica,
-            confiabilidade e produtos preparados para o futuro.
+            {content.description}
           </p>
         </motion.div>
 
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {items.map((item, index) => {
-            const Icon = item.icon;
+          {content.cards.map((item, index) => {
+            const Icon = icons[index];
             return (
               <motion.div
                 key={item.title}

@@ -1,16 +1,50 @@
-# React + Vite
+# SHV Digital landing page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite landing page with Portuguese, English and Spanish translations and build-time prerendering.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Language is determined by the URL: `/pt-BR/`, `/en/`, `/es/`. The root `/` uses Portuguese and points its canonical URL to `/pt-BR/`. Header flag links navigate to the corresponding language; no browser language or saved preference overrides shared URLs. Content lives in `src/i18n.js`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Adding or changing content
 
-## Expanding the ESLint configuration
+Every user-facing change must be provided in **Portuguese (Brazil), English, and Spanish** in the same update. Add matching translation keys in all three objects in `src/i18n.js`, including accessibility text and SEO metadata where applicable. Do not hardcode translated text in components. Repository-wide agent instructions are in `AGENTS.md`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Public URL (no configuration required)
+
+**The default public URL is https://shvdigital.com.br/. No `.env` file is needed** for development or a production build on this domain. Missing or empty `SITE_URL` values use this default automatically.
+
+Only if you need a different domain, copy `.env.example` to `.env` and change:
+
+```dotenv
+SITE_URL=https://your-other-domain.com
+```
+
+`SITE_URL` is public configuration, not a secret. It tells the build which full URLs to write into canonical links, language alternates, SHV logo social previews, structured data, `sitemap.xml`, and `robots.txt`. It does not publish the website or configure hosting. A deployment environment variable can also override the default. Use only an HTTP(S) origin, without a subpath, query, or fragment; a trailing slash is accepted and normalized internally to avoid double slashes.
+
+The fallback is defined in `src/seo.js`. `scripts/prerender.mjs` reads the optional override for production, and `vite.config.js` uses it for development metadata. Rebuild after changing it.
+
+## Production
+
+Run the following commands—creating `.env` is **not required**:
+
+```sh
+npm test
+npm run lint
+npm run build
+npm run test:build # optional: rebuild and validate the generated HTML
+npm run preview
+```
+
+Deploy **all of `dist/`** to a static host that serves directory `index.html` files. The build generates `/index.html`, `/pt-BR/index.html`, `/en/index.html`, and `/es/index.html`, each with fully rendered localized content, language attributes, metadata, canonical/hreflang links, Open Graph/Twitter logo previews, and JSON-LD. React hydrates the existing HTML for interactions. `.prerender/` is an intermediate build directory, not a deployment artifact.
+
+Serve the language directories before any SPA catch-all rewrite; rewriting every locale to the root HTML would return Portuguese metadata to crawlers. Prefer a real 404 for unknown paths. Lowercase `/en/` and `/es/` are the canonical public URLs; configure host redirects from `/EN/` and `/ES/` if those aliases are needed in production. Also redirect slashless URLs to their trailing-slash equivalents. If your host cannot serve directory indexes, add explicit rewrites from each locale to its own `index.html`.
+
+`dist/sitemap.xml` and `dist/robots.txt` are generated using `SITE_URL`. Submit `/sitemap.xml` to search engines after deployment. Rebuild whenever translations or the production domain change.
+
+The intro overlay is no longer used: content is available immediately, including without JavaScript. Hover interactions remain, while entry animations no longer hide prerendered content. Contact submissions continue to use the existing Formspree endpoint and include the selected language.

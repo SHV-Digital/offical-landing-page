@@ -50,3 +50,4 @@ pnpm-debug.log*
 
 # Optional cache
 .cache/
+.prerender/
