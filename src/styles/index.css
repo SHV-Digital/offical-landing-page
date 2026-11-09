@@ -263,7 +263,7 @@ html {
 .hero-brand-art[data-dragging="true"] .brand-core { animation-play-state: paused; }
 .hero-brand-art[data-arriving] .brand-core { animation: none; }
 .hero-motion-control[hidden] { display: none; }
-.hero-motion-control:focus {
+.hero-brand .hero-motion-control:focus {
   position: absolute;
   left: 50%;
   top: calc(100% + 8px);
@@ -300,12 +300,12 @@ html {
   filter: drop-shadow(0 0 12px rgb(192 132 252 / 0.65));
 }
 
-.hero-section[data-animated="true"] .hero-slogan {
+[data-motion-scope][data-animated="true"] .hero-slogan {
   animation: slogan-breathe 3.4s ease-in-out infinite;
 }
 
 .hero-headline { color: #f5f5f5; }
-.hero-section[data-animated="true"] .hero-description {
+[data-motion-scope][data-animated="true"] .hero-description {
   animation: description-breathe 4.6s ease-in-out infinite;
 }
 
@@ -324,8 +324,8 @@ html {
   }
 }
 
-.hero-section[data-paused="true"] .hero-slogan,
-.hero-section[data-paused="true"] .hero-description { animation-play-state: paused; }
+[data-motion-scope][data-paused="true"] .hero-slogan,
+[data-motion-scope][data-paused="true"] .hero-description { animation-play-state: paused; }
 
 @keyframes slogan-breathe {
   0%, 100% { text-shadow: 0 0 12px rgb(168 85 247 / 0.5), 0 0 32px rgb(168 85 247 / 0.25); }
@@ -358,7 +358,7 @@ html {
 }
 
 .text-spotlight[data-spotlight]::before { opacity: 1; }
-.hero-section .text-spotlight[data-spotlight] { animation-play-state: paused; text-shadow: none !important; filter: none; }
+[data-motion-scope] .text-spotlight[data-spotlight] { animation-play-state: paused; text-shadow: none !important; filter: none; }
 .text-spotlight[data-spotlight] .headline-wave-layer { visibility: hidden; }
 
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
@@ -383,6 +383,170 @@ html {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* The carousel starts as a readable card list; only hydration adds the orbit. */
+.about-orbit { position: relative; }
+.about-orbit-stage { position: relative; display: grid; gap: 16px; }
+.about-orbit-scenery, .about-orbit-controls, .about-orbit-select { display: none; }
+.about-orbit-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.09);
+  border-radius: 24px;
+  padding: 24px;
+  background: linear-gradient(150deg, #1b1625, #11121b 80%);
+  box-shadow: 0 24px 65px -24px rgb(0 0 0 / 0.95);
+  transition: border-color 400ms ease, box-shadow 400ms ease;
+}
+.about-orbit-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: #080910;
+  opacity: var(--orbit-shade, 0);
+}
+
+@supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
+  .about-orbit-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    padding: 2px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(from var(--header-ring-angle), #a855f7, #f3e8ff 12deg, #c084fc 28deg, rgb(168 85 247 / 0.15) 80deg, #4f6fff 180deg, #dbeafe 192deg, #818cf8 210deg, rgb(79 111 255 / 0.15) 270deg, #a855f7);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: calc(0.12 + var(--orbit-front, 0) * 0.88);
+  }
+  .about-orbit[data-enhanced="true"] .about-orbit-card::before { animation: header-ring-turn 7s linear infinite; animation-delay: var(--orbit-ring-delay, 0s); }
+  .about-orbit[data-visible="false"] .about-orbit-card::before,
+  .about-orbit[data-paused="true"] .about-orbit-card::before { animation-play-state: paused; }
+}
+.about-orbit-icon {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(168 85 247 / 0.2);
+  border-radius: 13px;
+  color: #d8b4fe;
+  background: rgb(168 85 247 / 0.09);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 350ms ease, background-color 350ms ease;
+}
+.about-orbit-card:hover .about-orbit-icon, .about-orbit-card:focus-within .about-orbit-icon {
+  transform: translateY(-2px) rotate(-5deg);
+  background: rgb(168 85 247 / 0.18);
+  box-shadow: 0 0 24px -10px rgb(168 85 247 / 0.7);
+}
+.about-orbit-number { position: absolute; top: 27px; right: 22px; font: 10px monospace; letter-spacing: 0.1em; color: #737078; }
+.about-orbit-card-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at top left, rgb(168 85 247 / 0.12), transparent 65%);
+  opacity: var(--orbit-front, 0);
+}
+.about-orbit[data-enhanced="true"] .about-orbit-stage { display: block; height: 480px; perspective: 1200px; }
+.about-orbit[data-enhanced="true"] .about-orbit-scenery { display: block; }
+.about-orbit[data-enhanced="true"] .about-orbit-card {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: clamp(154px, 58%, 238px);
+  min-height: 280px;
+  padding: 22px 18px;
+  transform-origin: center;
+  will-change: transform;
+}
+.about-orbit[data-enhanced="true"] .about-orbit-card {
+  border-color: rgb(168 85 247 / 0.16);
+  box-shadow: 0 28px 60px -20px rgb(0 0 0 / 0.95), 0 0 40px -22px rgb(168 85 247 / calc(var(--orbit-front, 0) * 0.5));
+}
+.about-orbit-card[data-front="true"] h3 { animation: orbit-card-arrive 800ms ease-out; }
+.about-orbit[data-paused="true"] .about-orbit-card h3 { animation-play-state: paused; }
+@keyframes orbit-card-arrive {
+  from { text-shadow: 0 0 20px rgb(192 132 252 / 0.55); }
+  to { text-shadow: 0 0 0 transparent; }
+}
+.about-orbit[data-enhanced="true"] .about-orbit-select { display: block; cursor: pointer; z-index: 4; }
+.about-orbit-select:focus-visible { outline: 2px solid #d8b4fe; outline-offset: -5px; }
+.about-orbit-halo {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(168 85 247 / 0.1), rgb(79 111 255 / 0.03) 45%, transparent 70%);
+}
+.about-orbit[data-enhanced="true"] .about-orbit-controls { display: flex; position: relative; }
+.about-orbit-arrow {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(168 85 247 / 0.18);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgb(168 85 247 / 0.09), rgb(79 111 255 / 0.05));
+  color: #a3a3a3;
+  transition: color 200ms ease, border-color 200ms ease, box-shadow 250ms ease;
+}
+.about-orbit-arrow::before, .about-orbit-arrow::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+.about-orbit-arrow::before {
+  background: linear-gradient(110deg, #4f6fff, #9333ea, #6366f1, #4f6fff);
+  background-size: 300% 100%;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.about-orbit-arrow::after { background: linear-gradient(105deg, transparent, rgb(255 255 255 / 0.25), transparent); transform: translateX(-110%); }
+.about-orbit-arrow svg { position: relative; z-index: 1; transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1); }
+.about-orbit-arrow[data-direction="previous"] { --arrow-shift: -3px; }
+.about-orbit-arrow[data-direction="next"] { --arrow-shift: 3px; }
+.about-orbit-arrow:is(:hover, :focus-visible) { color: #faf5ff; border-color: rgb(192 132 252 / 0.7); box-shadow: 0 0 26px -10px rgb(168 85 247 / 0.65); }
+.about-orbit-arrow:is(:hover, :focus-visible)::before { opacity: 1; animation: contact-color-flow 3s linear infinite; }
+.about-orbit-arrow:is(:hover, :focus-visible)::after { animation: nav-selection-sweep 700ms ease-out both; }
+.about-orbit-arrow:is(:hover, :focus-visible) svg { transform: translateX(var(--arrow-shift)); }
+.about-orbit[data-paused="true"] .about-orbit-arrow::before { animation-play-state: paused; }
+.about-orbit-dot { display: flex; width: 30px; height: 44px; align-items: center; justify-content: center; }
+.about-orbit-dot span { width: 5px; height: 5px; border-radius: 999px; background: #4b4457; transition: width 250ms ease, background-color 250ms ease, box-shadow 250ms ease; }
+.about-orbit-dot:hover span { width: 12px; background: #a78bfa; box-shadow: 0 0 14px rgb(168 85 247 / 0.3); }
+.about-orbit-dot[aria-pressed="true"] span { width: 22px; background: linear-gradient(90deg, #818cf8, #c084fc); box-shadow: 0 0 14px rgb(168 85 247 / 0.5); }
+.about-orbit-arrow:focus-visible, .about-orbit-dot:focus-visible { outline: 2px solid #c084fc; outline-offset: 3px; border-radius: 999px; }
+.about-orbit .about-orbit-pause:focus {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid rgb(192 132 252 / 0.4);
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: #17131f;
+  color: #e9d5ff;
+  font-size: 12px;
+  outline: 2px solid #c084fc;
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .about-orbit[data-enhanced="true"] .about-orbit-card { padding: 26px 24px; }
+  .about-orbit[data-enhanced="true"] .about-orbit-stage { height: 510px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .language-selector[open] .language-panel { animation: none; }
@@ -390,9 +554,9 @@ html {
   .hero-brand[data-animated="true"] .brand-core { animation: none; }
   .hero-motion-control { display: none; }
   .hero-brand-art[data-arriving] { visibility: visible; }
-  .hero-section[data-animated="true"] .hero-slogan { animation: none; }
+  [data-motion-scope][data-animated="true"] .hero-slogan { animation: none; }
   .hero-slogan { transition: none; }
-  .hero-section[data-animated="true"] .hero-description { animation: none; }
+  [data-motion-scope][data-animated="true"] .hero-description { animation: none; }
   .headline-wave-layer { display: none; }
   .text-spotlight::before { transition: none; }
   .header-shell::before { animation: none; }
@@ -402,14 +566,18 @@ html {
   .header-nav-link:is(:hover, :focus-visible) .header-nav-label, .language-option:hover { transform: none; }
   .header-logo:is(:hover, :focus-visible) img { transform: none; }
   .header-contact:is(:hover, :focus-visible)::before, .header-contact:is(:hover, :focus-visible)::after { animation: none; }
+  .about-orbit-card, .about-orbit-card-light, .about-orbit-arrow, .about-orbit-dot span { transition: none; }
+  .about-orbit-card::before, .about-orbit-card[data-front="true"] h3, .about-orbit-arrow:is(:hover, :focus-visible)::before, .about-orbit-arrow:is(:hover, :focus-visible)::after { animation: none; }
+  .about-orbit-icon, .about-orbit-arrow svg, .about-orbit-arrow::before { transition: none; }
+  .about-orbit-card:hover .about-orbit-icon, .about-orbit-card:focus-within .about-orbit-icon, .about-orbit-arrow:is(:hover, :focus-visible) svg { transform: none; }
 }
 
 @media (forced-colors: active) {
   .headline-wave-layer { display: none; }
-  .hero-section .hero-slogan { text-shadow: none; }
-  .hero-section[data-animated="true"] .hero-description { animation: none; text-shadow: none; color: CanvasText; }
-  .hero-section[data-animated="true"] .hero-headline { animation: none; background: none; color: CanvasText; }
-  .hero-section[data-animated="true"] .hero-slogan-ink { animation: none; background: none; color: CanvasText; }
+  [data-motion-scope] .hero-slogan { text-shadow: none; }
+  [data-motion-scope][data-animated="true"] .hero-description { animation: none; text-shadow: none; color: CanvasText; }
+  [data-motion-scope][data-animated="true"] .hero-headline { animation: none; background: none; color: CanvasText; }
+  [data-motion-scope][data-animated="true"] .hero-slogan-ink { animation: none; background: none; color: CanvasText; }
   .text-spotlight::before { display: none; }
   .text-spotlight[data-spotlight] .spotlight-ink { background: none; color: CanvasText !important; }
   .header-shell { border-color: CanvasText; }
@@ -418,6 +586,12 @@ html {
   .header-contact { border-color: ButtonText; background: ButtonFace; color: ButtonText; }
   .language-trigger, .language-panel { border-color: ButtonText; background: Canvas; color: CanvasText; }
   .language-option[aria-current="page"] { border-color: Highlight; color: LinkText; background: Canvas; }
+  .about-orbit-card { border-color: CanvasText; background: Canvas; }
+  .about-orbit-card[data-front="true"] { border-color: Highlight; }
+  .about-orbit-arrow { color: ButtonText; border-color: ButtonText; background: ButtonFace; }
+  .about-orbit-dot span { background: ButtonText; }
+  .about-orbit-dot[aria-pressed="true"] span { background: Highlight; }
+  .about-orbit-card::before, .about-orbit-card::after, .about-orbit-arrow::before, .about-orbit-arrow::after { display: none; }
 }
 
 html,

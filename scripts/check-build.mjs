@@ -11,9 +11,17 @@ for (const { code } of locales) {
   const headlineText = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '');
   assert.equal(headlineText, `${content.hero.title} ${content.hero.line1} ${content.hero.line2}`, 'Headline preserves spaces and natural reading order');
   assert.ok(html.includes('class="hero-headline-source spotlight-ink block"'), 'Headline source remains visible and unsplit in static HTML');
-  assert.equal((html.match(/data-text-spotlight="true"/g) || []).length, 3, 'Slogan, headline and description all support the pointer spotlight');
+  const heroHtml = html.match(/<section\b[^>]*id="inicio"[\s\S]*?<\/section>/)[0];
+  const aboutHtml = html.match(/<section\b[^>]*id="sobre"[\s\S]*?<\/section>/)[0];
+  assert.equal((heroHtml.match(/data-text-spotlight="true"/g) || []).length, 3, 'Home text supports the pointer spotlight');
+  assert.equal((aboutHtml.match(/data-text-spotlight="true"/g) || []).length, content.about.paragraphs.length + 2, 'About text shares the Home interaction pattern');
+  assert.ok(!html.includes('about-panel'), 'About flows directly in the page rather than an enclosing card');
+  assert.ok(!html.includes('about-orbit-path'), 'Carousel has no decorative orbit lines behind the cards');
   assert.ok(!html.includes('class="headline-wave-line"'), 'Decorative line overlays are only added after hydration');
   assert.ok(html.includes(content.about.headline));
+  assert.ok(html.includes(`aria-label="${content.about.carouselLabel}"`), 'About carousel has a localized accessible name');
+  assert.equal((html.match(/class="about-orbit-card"/g) || []).length, content.about.cards.length, 'Every carousel card is prerendered');
+  for (const card of content.about.cards) assert.ok(html.includes(card.description), 'All carousel content remains available without JavaScript');
   assert.ok(html.includes(`aria-label="${content.hero.pauseAnimation}"`));
   assert.ok(html.includes(`aria-label="${content.hero.logoInteraction}"`));
   assert.ok(html.includes(content.hero.rotateHint));

@@ -20,7 +20,7 @@ export default function Hero({ content }) {
   const headline = `${content.title} ${content.line1} ${content.line2}`;
 
   return (
-    <section id="inicio" data-animated={hydrated} data-paused={paused} className="hero-section relative isolate flex min-h-svh items-center overflow-hidden px-6 pb-20 pt-44 lg:pb-24 lg:pt-36">
+    <section id="inicio" data-motion-scope data-animated={hydrated} data-paused={paused} className="hero-section relative isolate flex min-h-svh items-center overflow-hidden px-6 pb-20 pt-44 lg:pb-24 lg:pt-36">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-15%] top-[10%] h-[600px] w-[600px] rounded-full bg-brand-purple/[0.08] blur-[130px]" />
         <div className="absolute bottom-0 right-[-15%] h-[500px] w-[500px] rounded-full bg-brand-blue/[0.06] blur-[130px]" />
