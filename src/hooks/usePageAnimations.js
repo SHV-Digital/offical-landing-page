@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const INTRO_DURATION_MS = 2800;
+export const INTRO_DURATION_MS = 3200;
 
 export default function usePageAnimations(mainRef) {
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function usePageAnimations(mainRef) {
 
     // Only animate after hydration. Static HTML always stays visible without JS.
     const intro = document.querySelector('.intro-overlay');
-    const delay = intro && !intro.hidden ? INTRO_DURATION_MS - 500 : 0;
+    const delay = intro && !intro.hidden ? INTRO_DURATION_MS * 0.58 : 0;
     const hero = mainRef.current.querySelector('section');
     if (!window.location.hash && window.scrollY === 0) {
       hero.querySelectorAll('[data-reveal]').forEach((element, index) => play(element, delay + index * 90));
