@@ -39,6 +39,7 @@ export default function Hero({ content }) {
         className="relative z-10 max-w-5xl text-center"
       >
         <motion.p
+          data-reveal
           variants={itemVariants}
           className="mb-6 inline-block rounded-full border border-neutral-800 bg-neutral-900/60 px-5 py-2 text-sm text-neutral-300 backdrop-blur"
         >
@@ -46,6 +47,7 @@ export default function Hero({ content }) {
         </motion.p>
 
         <motion.h1
+          data-reveal
           variants={itemVariants}
           className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight"
         >
@@ -57,6 +59,7 @@ export default function Hero({ content }) {
         </motion.h1>
 
         <motion.p
+          data-reveal
           variants={itemVariants}
           className="mt-10 text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl mx-auto"
         >
@@ -64,6 +67,7 @@ export default function Hero({ content }) {
         </motion.p>
 
         <motion.div
+          data-reveal
           variants={itemVariants}
           className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
         >

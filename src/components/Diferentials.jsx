@@ -41,6 +41,7 @@ export default function Differentials({ content }) {
       </div>
       <div className="relative mx-auto max-w-6xl px-6">
         <motion.div
+          data-reveal
           initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -66,6 +67,7 @@ export default function Differentials({ content }) {
             const Icon = icons[index];
             return (
               <motion.div
+                data-reveal
                 key={item.title}
                 variants={cardVariants}
                 whileHover={{ y: -4, scale: 1.03 }}

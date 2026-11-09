@@ -51,6 +51,7 @@ export default function About({ content }) {
               const Icon = icons[index];
               return (
                 <motion.div
+                  data-reveal
                   key={card.title}
                   variants={itemVariants}
                   className="relative rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 backdrop-blur"
@@ -74,13 +75,14 @@ export default function About({ content }) {
           {/* RIGHT – Text */}
           <div>
             <motion.h2
+              data-reveal
               variants={itemVariants}
               className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight"
             >
               {content.title}
             </motion.h2>
 
-            <motion.div variants={itemVariants} className="mt-10 space-y-6">
+            <motion.div data-reveal variants={itemVariants} className="mt-10 space-y-6">
               {content.paragraphs.map((paragraph, index) => (
                 <p key={paragraph} className={`text-lg leading-relaxed ${index === 0 ? 'text-neutral-300' : 'text-neutral-400'}`}>
                   {paragraph}

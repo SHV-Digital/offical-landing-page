@@ -51,4 +51,6 @@ Serve the language directories before any SPA catch-all rewrite; rewriting every
 
 `dist/sitemap.xml` and `dist/robots.txt` are generated using `SITE_URL`. Submit `/sitemap.xml` to search engines after deployment. Rebuild whenever translations or the production domain change.
 
-The intro overlay is no longer used: content is available immediately, including without JavaScript. Hover interactions remain, while entry animations no longer hide prerendered content. Contact submissions continue to use the existing Formspree endpoint and include the selected language.
+The original-style logo intro is restored as a decorative 2.8-second overlay with a soft glow, scale/blur reveal, and fade-out. The page is always rendered underneath; the overlay is hidden in static HTML and only starts after hydration. Scrolling, clicking, or pressing a key dismisses it immediately, and reduced-motion users, direct section links, and restored scroll positions skip it. It does not intercept clicks or keyboard focus.
+
+Hero and scroll-entry animations progressively enhance the visible HTML through the Web Animations API and IntersectionObserver. Without JavaScript or with reduced motion, content remains visible without the intro or entrance animations. Hover interactions respect the Framer Motion reduced-motion configuration. Contact submissions continue to use the existing Formspree endpoint and include the selected language.

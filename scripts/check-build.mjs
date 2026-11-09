@@ -13,6 +13,8 @@ for (const { code } of locales) {
   assert.ok(html.includes(`name="language" value="${code}"`));
   assert.ok(!html.includes('<!--app-head-->'));
   assert.ok(!html.includes('opacity:0'), 'Prerendered content must not be hidden');
+  assert.ok(/hidden="" aria-hidden="true" inert="" class="intro-overlay/.test(html), 'Intro must be hidden and decorative in static HTML');
+  assert.ok(html.includes('data-reveal="true"'), 'Entrance animations progressively enhance static content');
   assert.ok(html.includes(`href="/${code}/" hrefLang="${code}" lang="${code}"`));
   assert.ok(html.includes('<details class="language-selector group sm:relative">'), 'Language dropdown is closed by default');
   assert.ok(html.includes(`<summary aria-label="${content.languageLabel}:`), 'Dropdown label is localized');
