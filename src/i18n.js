@@ -12,9 +12,9 @@ export const translations = {
   'pt-BR': {
     title: 'SHV Digital — Desenvolvimento de software sob medida',
     description: 'Desenvolvimento de software sob medida, arquitetura de sistemas, automação e produtos digitais. Engenharia responsável e visão de longo prazo com a SHV Digital.',
-    nav: ['Sobre', 'Serviços', 'Diferenciais'], contactLabel: 'Contato', languageLabel: 'Selecionar idioma', homeLabel: 'SHV Digital — Página inicial',
-    hero: { badge: 'Onde software é levado a sério', title: 'Construímos software', line1: 'com engenharia responsável', line2: 'e visão de longo prazo', description: 'Projetamos e desenvolvemos sistemas digitais sob medida, com foco em arquitetura sólida, decisões técnicas conscientes e produtos preparados para evoluir com segurança.', cta: 'Entrar em contato' },
-    about: { title: 'Sobre', paragraphs: [
+    nav: ['Sobre', 'Diferenciais', 'Serviços'], navigationLabel: 'Navegação principal', contactLabel: 'Contato', languageLabel: 'Selecionar idioma', homeLabel: 'SHV Digital — Página inicial',
+    hero: { badge: 'Onde o software é levado a sério', title: 'Construímos software', line1: 'com engenharia responsável', line2: 'e visão de longo prazo', description: 'Projetamos e desenvolvemos sistemas digitais sob medida, com foco em arquitetura sólida, decisões técnicas conscientes e produtos preparados para evoluir com segurança.', cta: 'Entrar em contato', pauseAnimation: 'Pausar animações do logo e do texto', resumeAnimation: 'Retomar animações do logo e do texto', logoInteraction: 'Logo 3D interativo da SHV Digital', rotateHint: 'Arraste para girar. Com foco, use as setas; Home redefine.' },
+    about: { title: 'Sobre', headline: 'Profundidade técnica. Impacto que permanece.', paragraphs: [
       'A SHV Digital nasceu com um propósito claro: construir software com profundidade técnica, clareza de decisões e foco real em impacto de longo prazo.',
       'Atuamos ao lado de empresas que levam tecnologia a sério — desde a definição da arquitetura até o acabamento final do produto. Nosso trabalho vai além da entrega de código: envolve entendimento de contexto, visão estratégica e responsabilidade técnica.',
       'Cada decisão é pensada para sustentar crescimento, reduzir complexidade desnecessária e criar bases sólidas para produtos que precisam evoluir com segurança.',
@@ -40,9 +40,9 @@ export const translations = {
   en: {
     title: 'SHV Digital — Custom Software Development',
     description: 'Custom software development, systems architecture, automation, and digital products. Responsible engineering and a long-term vision with SHV Digital.',
-    nav: ['About', 'Services', 'Why SHV'], contactLabel: 'Contact', languageLabel: 'Select language', homeLabel: 'SHV Digital — Home',
-    hero: { badge: 'Where software is taken seriously', title: 'We build software', line1: 'with responsible engineering', line2: 'and a long-term vision', description: 'We design and develop custom digital systems with solid architecture, thoughtful technical decisions, and products built to evolve reliably.', cta: 'Get in touch' },
-    about: { title: 'About us', paragraphs: [
+    nav: ['About', 'Why SHV', 'Services'], navigationLabel: 'Main navigation', contactLabel: 'Contact', languageLabel: 'Select language', homeLabel: 'SHV Digital — Home',
+    hero: { badge: 'Where software is taken seriously', title: 'We build software', line1: 'with responsible engineering', line2: 'and a long-term vision', description: 'We design and develop custom digital systems with solid architecture, thoughtful technical decisions, and products built to evolve reliably.', cta: 'Get in touch', pauseAnimation: 'Pause logo and text animations', resumeAnimation: 'Resume logo and text animations', logoInteraction: 'Interactive SHV Digital 3D logo', rotateHint: 'Drag to rotate. When focused, use arrow keys; Home resets.' },
+    about: { title: 'About us', headline: 'Technical depth. Lasting impact.', paragraphs: [
       'SHV Digital was founded with a clear purpose: to build software with technical depth, clear decision-making, and a genuine focus on long-term impact.',
       'We work alongside companies that take technology seriously — from defining the architecture to polishing the final product. Our work goes beyond delivering code: it involves understanding context, strategic thinking, and technical responsibility.',
       'Every decision is made to support growth, reduce unnecessary complexity, and lay solid foundations for products that need to evolve with confidence.',
@@ -68,9 +68,9 @@ export const translations = {
   es: {
     title: 'SHV Digital — Desarrollo de software a medida',
     description: 'Desarrollo de software a medida, arquitectura de sistemas, automatización y productos digitales. Ingeniería responsable y visión a largo plazo con SHV Digital.',
-    nav: ['Nosotros', 'Servicios', 'Por qué SHV'], contactLabel: 'Contacto', languageLabel: 'Seleccionar idioma', homeLabel: 'SHV Digital — Inicio',
-    hero: { badge: 'Donde el software se toma en serio', title: 'Construimos software', line1: 'con ingeniería responsable', line2: 'y visión a largo plazo', description: 'Diseñamos y desarrollamos sistemas digitales a medida, con una arquitectura sólida, decisiones técnicas conscientes y productos preparados para evolucionar con seguridad.', cta: 'Ponte en contacto' },
-    about: { title: 'Sobre nosotros', paragraphs: [
+    nav: ['Nosotros', 'Por qué SHV', 'Servicios'], navigationLabel: 'Navegación principal', contactLabel: 'Contacto', languageLabel: 'Seleccionar idioma', homeLabel: 'SHV Digital — Inicio',
+    hero: { badge: 'Donde el software se toma en serio', title: 'Construimos software', line1: 'con ingeniería responsable', line2: 'y visión a largo plazo', description: 'Diseñamos y desarrollamos sistemas digitales a medida, con una arquitectura sólida, decisiones técnicas conscientes y productos preparados para evolucionar con seguridad.', cta: 'Ponte en contacto', pauseAnimation: 'Pausar animaciones del logo y del texto', resumeAnimation: 'Reanudar animaciones del logo y del texto', logoInteraction: 'Logo 3D interactivo de SHV Digital', rotateHint: 'Arrastra para girar. Con el foco, usa las flechas; Home restablece.' },
+    about: { title: 'Sobre nosotros', headline: 'Profundidad técnica. Impacto duradero.', paragraphs: [
       'SHV Digital nació con un propósito claro: construir software con profundidad técnica, claridad en las decisiones y un enfoque real en el impacto a largo plazo.',
       'Trabajamos junto a empresas que se toman la tecnología en serio, desde la definición de la arquitectura hasta los últimos detalles del producto. Nuestro trabajo va más allá de entregar código: implica comprender el contexto, aportar visión estratégica y asumir responsabilidad técnica.',
       'Cada decisión busca sostener el crecimiento, reducir la complejidad innecesaria y crear bases sólidas para productos que necesitan evolucionar con seguridad.',

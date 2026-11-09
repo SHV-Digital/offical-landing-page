@@ -42,6 +42,7 @@ export default function Contact({ content, locale }) {
           className="mx-auto max-w-3xl text-center"
         >
           <motion.h2
+            data-reveal
             variants={itemVariants}
             className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight"
           >
@@ -49,6 +50,7 @@ export default function Contact({ content, locale }) {
           </motion.h2>
 
           <motion.p
+            data-reveal
             variants={itemVariants}
             className="mt-6 text-lg leading-relaxed text-neutral-400"
           >
@@ -56,6 +58,7 @@ export default function Contact({ content, locale }) {
           </motion.p>
 
           <motion.form
+            data-reveal
             variants={itemVariants}
             action="https://formspree.io/f/xrebnwwa"
             method="POST"

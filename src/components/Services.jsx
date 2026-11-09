@@ -39,6 +39,7 @@ export default function Services({ content }) {
       <div className="relative mx-auto max-w-6xl px-6">
         {/* Header */}
         <motion.div
+          data-reveal
           variants={containerVariants}
           initial={false}
           whileInView="visible"
@@ -72,6 +73,7 @@ export default function Services({ content }) {
             const Icon = icons[index];
             return (
               <motion.div
+                data-reveal
                 key={service.title}
                 variants={cardVariants}
                 whileHover={{ y: -6, scale: 1.03 }}

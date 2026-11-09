@@ -1,81 +1,77 @@
-import { motion } from "framer-motion";
+import { useId, useRef, useState, useSyncExternalStore } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import BrandMark from './BrandMark';
+import useLogoRotation from '../hooks/useLogoRotation';
+import WaveHeadline from './WaveHeadline';
+import useTextSpotlight from '../hooks/useTextSpotlight';
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 export default function Hero({ content }) {
+  const [paused, setPaused] = useState(false);
+  const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot);
+  const logoRef = useRef(null);
+  const copyRef = useRef(null);
+  const instructionsId = useId();
+  useLogoRotation(logoRef);
+  useTextSpotlight(copyRef);
+  const headline = `${content.title} ${content.line1} ${content.line2}`;
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
-      {/* Background gradients */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-48 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-indigo-500/10 blur-[140px]" />
-        <div className="absolute top-1/3 left-1/4 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[120px]" />
-        <div className="absolute bottom-[-200px] right-1/4 h-[600px] w-[600px] rounded-full bg-fuchsia-500/10 blur-[160px]" />
+    <section id="inicio" data-animated={hydrated} data-paused={paused} className="hero-section relative isolate flex min-h-svh items-center overflow-hidden px-6 pb-20 pt-44 lg:pb-24 lg:pt-36">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-[-15%] top-[10%] h-[600px] w-[600px] rounded-full bg-brand-purple/[0.08] blur-[130px]" />
+        <div className="absolute bottom-0 right-[-15%] h-[500px] w-[500px] rounded-full bg-brand-blue/[0.06] blur-[130px]" />
       </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial={false}
-        animate="visible"
-        className="relative z-10 max-w-5xl text-center"
-      >
-        <motion.p
-          variants={itemVariants}
-          className="mb-6 inline-block rounded-full border border-neutral-800 bg-neutral-900/60 px-5 py-2 text-sm text-neutral-300 backdrop-blur"
-        >
-          {content.badge}
-        </motion.p>
-
-        <motion.h1
-          variants={itemVariants}
-          className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight"
-        >
-          {content.title}
-          <span className="block mt-4 text-neutral-400">
-            {content.line1}
-            <br className="hidden md:block" /> {content.line2}
-          </span>
-        </motion.h1>
-
-        <motion.p
-          variants={itemVariants}
-          className="mt-10 text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl mx-auto"
-        >
-          {content.description}
-        </motion.p>
-
-        <motion.div
-          variants={itemVariants}
-          className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a
-            href="mailto:contato@shvdigital.com.br"
-            className="group relative inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-medium text-neutral-950 transition hover:scale-[1.02]"
+      <div className="mx-auto grid w-full min-w-0 max-w-6xl items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="hero-brand relative mx-auto flex w-full max-w-[280px] flex-col items-center lg:max-w-[420px]" data-animated={hydrated} data-paused={paused}>
+          <div aria-hidden="true" className="hero-brand-halo" />
+          <div
+            ref={logoRef}
+            role="group"
+            aria-label={content.logoInteraction}
+            aria-describedby={hydrated ? instructionsId : undefined}
+            aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight Home"
+            tabIndex={hydrated ? 0 : undefined}
+            data-interactive={hydrated}
+            className="hero-brand-art relative w-full rounded-3xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-brand-purple/60"
           >
-            {content.cta}
-            <span className="absolute inset-0 rounded-full bg-white/20 opacity-0 blur transition group-hover:opacity-100" />
-          </a>
-        </motion.div>
-      </motion.div>
+            <BrandMark />
+          </div>
+          <button
+            type="button"
+            hidden={!hydrated}
+            onClick={() => setPaused((value) => !value)}
+            aria-label={paused ? content.resumeAnimation : content.pauseAnimation}
+            aria-pressed={paused}
+            className="hero-motion-control sr-only focus:not-sr-only focus:rounded-full focus:bg-neutral-900 focus:px-4 focus:py-2 focus:text-xs focus:text-white focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-brand-purple"
+          >
+            {paused ? content.resumeAnimation : content.pauseAnimation}
+          </button>
+          <p id={instructionsId} hidden={!hydrated} className="sr-only">
+            {content.rotateHint}
+          </p>
+        </div>
+
+        <div ref={copyRef} className="hero-copy min-w-0 text-center lg:text-left">
+          <p data-reveal data-text-spotlight className="hero-slogan text-spotlight mx-auto mb-7 w-fit text-lg font-medium leading-relaxed tracking-tight sm:text-xl lg:mx-0 xl:text-2xl">
+            <span className="hero-slogan-ink spotlight-ink block">{content.badge}</span>
+          </p>
+          <WaveHeadline text={headline} paused={paused} />
+          <p data-reveal data-text-spotlight className="hero-description text-spotlight mx-auto mt-7 max-w-xl text-base leading-relaxed text-neutral-400 lg:mx-0 lg:text-lg">
+            <span className="spotlight-ink block">{content.description}</span>
+          </p>
+          <div data-reveal className="mt-9">
+            <a href="#contato" className="group inline-flex min-h-12 items-center justify-center gap-5 rounded-full border border-purple-300/20 bg-gradient-to-r from-brand-purple/20 to-brand-blue/10 px-7 py-3.5 text-sm font-medium text-white shadow-[0_0_30px_-12px_rgba(168,85,247,0.4)] transition hover:border-purple-300/50 hover:bg-brand-purple/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-purple">
+              {content.cta}
+              <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-purple-300 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
