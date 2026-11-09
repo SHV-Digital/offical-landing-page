@@ -7,8 +7,23 @@ html {
   scroll-padding-top: 7rem;
 }
 
+.language-selector > summary::-webkit-details-marker {
+  display: none;
+}
+
+.language-selector[open] .language-panel {
+  transform-origin: top right;
+  animation: language-panel-in 180ms ease-out;
+}
+
+@keyframes language-panel-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .language-selector[open] .language-panel { animation: none; }
 }
 
 html,

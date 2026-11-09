@@ -11,6 +11,10 @@ npm run dev
 
 Language is determined by the URL: `/pt-BR/`, `/en/`, `/es/`. The root `/` uses Portuguese and points its canonical URL to `/pt-BR/`. Header flag links navigate to the corresponding language; no browser language or saved preference overrides shared URLs. Content lives in `src/i18n.js`.
 
+The header language dropdown shows the current flag and language code. Its native disclosure works without JavaScript; with JavaScript, Escape and outside clicks close it. It supports keyboard navigation and reduced-motion preferences. The dropdown heading and accessible label follow the current page language.
+
+Keep decorative background glows clipped inside their own layers to prevent horizontal overflow on mobile. Do not clip the header itself: its language dropdown must be able to extend below it. Check the header and open dropdown at narrow mobile widths in all three languages after layout changes.
+
 ## Adding or changing content
 
 Every user-facing change must be provided in **Portuguese (Brazil), English, and Spanish** in the same update. Add matching translation keys in all three objects in `src/i18n.js`, including accessibility text and SEO metadata where applicable. Do not hardcode translated text in components. Repository-wide agent instructions are in `AGENTS.md`.
