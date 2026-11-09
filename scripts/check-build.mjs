@@ -17,6 +17,10 @@ for (const { code } of locales) {
   assert.ok(html.includes(`aria-label="${content.hero.pauseAnimation}"`));
   assert.ok(html.includes(`aria-label="${content.hero.logoInteraction}"`));
   assert.ok(html.includes(content.hero.rotateHint));
+  assert.ok(/<p[^>]*class="sr-only">/.test(html), 'Logo instructions are screen-reader-only');
+  assert.ok(html.includes('hero-motion-control sr-only focus:not-sr-only'), 'Motion control stays accessible without a visible pause icon');
+  assert.ok(!html.includes('lucide-pause') && !html.includes('lucide-play'), 'Logo block has no pause/play icon');
+  assert.ok(!html.includes('lucide-move-horizontal') && !html.includes('>SHV DIGITAL</span>'), 'Logo is displayed without a movement symbol or brand caption');
   assert.ok(!/class="(?:intro-orbit|hero-orbit|hero-grid)/.test(html), 'No detached orbit or grid lines remain');
   assert.ok(html.includes('class="brand-depth"'), 'Original brand mark includes 3D depth layers');
   assert.ok(html.includes('class="hero-slogan'), 'Localized slogan is rendered in the hero');

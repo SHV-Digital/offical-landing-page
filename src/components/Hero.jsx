@@ -1,5 +1,5 @@
 import { useId, useRef, useState, useSyncExternalStore } from 'react';
-import { ArrowUpRight, MoveHorizontal, Pause, Play } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import BrandMark from './BrandMark';
 import useLogoRotation from '../hooks/useLogoRotation';
 import WaveHeadline from './WaveHeadline';
@@ -41,23 +41,18 @@ export default function Hero({ content }) {
           >
             <BrandMark />
           </div>
-          <div className="relative mt-6 flex min-h-9 items-center gap-4">
-            <span className="text-[10px] font-medium tracking-[0.35em] text-neutral-500">SHV DIGITAL</span>
-            <button
-              type="button"
-              hidden={!hydrated}
-              onClick={() => setPaused((value) => !value)}
-              aria-label={paused ? content.resumeAnimation : content.pauseAnimation}
-              title={paused ? content.resumeAnimation : content.pauseAnimation}
-              aria-pressed={paused}
-              className="hero-motion-control inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-neutral-400 transition-colors hover:border-brand-purple/50 hover:text-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-purple"
-            >
-              {paused ? <Play aria-hidden="true" className="h-3.5 w-3.5" /> : <Pause aria-hidden="true" className="h-3.5 w-3.5" />}
-            </button>
-          </div>
-          <p id={instructionsId} hidden={!hydrated} className="hero-drag-hint mt-3 flex max-w-[280px] items-start justify-center gap-2 text-center text-[11px] leading-relaxed text-neutral-500">
-            <MoveHorizontal aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-purple-300/70" />
-            <span>{content.rotateHint}</span>
+          <button
+            type="button"
+            hidden={!hydrated}
+            onClick={() => setPaused((value) => !value)}
+            aria-label={paused ? content.resumeAnimation : content.pauseAnimation}
+            aria-pressed={paused}
+            className="hero-motion-control sr-only focus:not-sr-only focus:rounded-full focus:bg-neutral-900 focus:px-4 focus:py-2 focus:text-xs focus:text-white focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-brand-purple"
+          >
+            {paused ? content.resumeAnimation : content.pauseAnimation}
+          </button>
+          <p id={instructionsId} hidden={!hydrated} className="sr-only">
+            {content.rotateHint}
           </p>
         </div>
 

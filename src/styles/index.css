@@ -241,7 +241,6 @@ html {
 .brand-orientation { transform: rotateX(var(--logo-pitch, 0deg)) rotateY(var(--logo-yaw, 0deg)); }
 .hero-brand-art[data-interactive="true"] { cursor: grab; touch-action: pan-y pinch-zoom; user-select: none; }
 .hero-brand-art[data-dragging="true"] { cursor: grabbing; }
-.hero-drag-hint[hidden] { display: none; }
 
 .brand-face, .brand-depth {
   position: absolute;
@@ -264,6 +263,15 @@ html {
 .hero-brand-art[data-dragging="true"] .brand-core { animation-play-state: paused; }
 .hero-brand-art[data-arriving] .brand-core { animation: none; }
 .hero-motion-control[hidden] { display: none; }
+.hero-motion-control:focus {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  z-index: 10;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 3rem));
+  transform: translateX(-50%);
+}
 
 @keyframes brand-turn {
   0% { transform: rotateX(0deg) rotateY(0deg); }
