@@ -35,7 +35,11 @@ export const translations = {
       { title: 'Automação e eficiência', description: 'Automação de processos, integrações e fluxos que reduzem custos operacionais e aumentam produtividade.' },
       { title: 'Produtos digitais', description: 'Criação e evolução de produtos digitais com atenção extrema à experiência do usuário, performance e acabamento final.' },
     ] },
-    contact: { title: 'Vamos conversar', description: 'Conte um pouco sobre sua ideia ou desafio. Nós entraremos em contato para entender o contexto e avaliar como podemos ajudar.', email: 'Seu e-mail', message: 'Sua mensagem', submit: 'Enviar mensagem' },
+    contact: { eyebrow: 'O próximo passo', headline: 'Seu desafio. Nosso próximo projeto.', title: 'Vamos conversar?', description: 'Você não precisa chegar com uma solução pronta. Conte o que precisa mudar — nós ajudamos a encontrar o caminho.', formDescription: 'Comece pelo que importa para você. O resto, a gente conversa.', email: 'Seu e-mail', emailPlaceholder: 'voce@empresa.com', message: 'Sobre o seu desafio', messagePlaceholder: 'O que não está funcionando? O que você gostaria de construir ou melhorar?', submit: 'Iniciar conversa', note: 'Sem compromisso. Primeiro, vamos entender o seu contexto.', processTitle: 'Como trabalhamos juntos', steps: [
+      { title: 'Conte o seu desafio', description: 'O que não funciona, o que faz falta ou a ideia que você quer tirar do papel.' },
+      { title: 'Encontramos o caminho', description: 'Entendemos o seu contexto e definimos juntos uma solução que faça sentido.' },
+      { title: 'Construímos e evoluímos', description: 'Transformamos o plano em software confiável e acompanhamos os próximos passos.' },
+    ], pauseAnimation: 'Pausar animações de Contato', resumeAnimation: 'Retomar animações de Contato', requiredEmail: 'Informe seu e-mail para que possamos responder.', invalidEmail: 'Informe um endereço de e-mail válido.', requiredMessage: 'Conte um pouco sobre o seu desafio.' },
   },
   en: {
     title: 'SHV Digital — Custom Software Development',
@@ -63,7 +67,11 @@ export const translations = {
       { title: 'Automation and efficiency', description: 'Process automation, integrations, and workflows that reduce operating costs and boost productivity.' },
       { title: 'Digital products', description: 'Building and evolving digital products with meticulous attention to user experience, performance, and polish.' },
     ] },
-    contact: { title: 'Let’s talk', description: 'Tell us about your idea or challenge. We’ll get in touch to understand the context and explore how we can help.', email: 'Your email', message: 'Your message', submit: 'Send message' },
+    contact: { eyebrow: 'The next step', headline: 'Your challenge. Our next project.', title: 'Let’s talk.', description: 'You don’t need to have the solution figured out. Tell us what needs to change — we’ll help find the way forward.', formDescription: 'Start with what matters to you. We’ll talk through the rest.', email: 'Your email', emailPlaceholder: 'you@company.com', message: 'About your challenge', messagePlaceholder: 'What isn’t working? What would you like to build or improve?', submit: 'Start a conversation', note: 'No commitment. Let’s understand your context first.', processTitle: 'How we work together', steps: [
+      { title: 'Tell us your challenge', description: 'What isn’t working, what’s missing, or the idea you want to bring to life.' },
+      { title: 'We find the right approach', description: 'We understand your context and define a practical solution together.' },
+      { title: 'We build and evolve', description: 'We turn the plan into reliable software and support its next steps.' },
+    ], pauseAnimation: 'Pause Contact animations', resumeAnimation: 'Resume Contact animations', requiredEmail: 'Enter your email so we can reply.', invalidEmail: 'Enter a valid email address.', requiredMessage: 'Tell us a little about your challenge.' },
   },
   es: {
     title: 'SHV Digital — Desarrollo de software a medida',
@@ -91,6 +99,10 @@ export const translations = {
       { title: 'Automatización y eficiencia', description: 'Automatización de procesos, integraciones y flujos de trabajo que reducen costes operativos y aumentan la productividad.' },
       { title: 'Productos digitales', description: 'Creación y evolución de productos digitales con especial atención a la experiencia de usuario, el rendimiento y el acabado final.' },
     ] },
-    contact: { title: 'Hablemos', description: 'Cuéntanos tu idea o desafío. Nos pondremos en contacto para entender el contexto y evaluar cómo podemos ayudarte.', email: 'Tu correo electrónico', message: 'Tu mensaje', submit: 'Enviar mensaje' },
+    contact: { eyebrow: 'El siguiente paso', headline: 'Tu desafío. Nuestro próximo proyecto.', title: '¿Hablamos?', description: 'No necesitas llegar con la solución resuelta. Cuéntanos qué necesita cambiar — te ayudamos a encontrar el camino.', formDescription: 'Empieza por lo que te importa. El resto, lo conversamos.', email: 'Tu correo electrónico', emailPlaceholder: 'tu@empresa.com', message: 'Sobre tu desafío', messagePlaceholder: '¿Qué no está funcionando? ¿Qué te gustaría construir o mejorar?', submit: 'Iniciar conversación', note: 'Sin compromiso. Primero, entendamos tu contexto.', processTitle: 'Cómo trabajamos juntos', steps: [
+      { title: 'Cuéntanos tu desafío', description: 'Lo que no funciona, lo que falta o la idea que quieres hacer realidad.' },
+      { title: 'Encontramos el camino', description: 'Entendemos tu contexto y definimos juntos una solución que tenga sentido.' },
+      { title: 'Construimos y evolucionamos', description: 'Transformamos el plan en software confiable y acompañamos los siguientes pasos.' },
+    ], pauseAnimation: 'Pausar animaciones de Contacto', resumeAnimation: 'Reanudar animaciones de Contacto', requiredEmail: 'Introduce tu correo electrónico para que podamos responder.', invalidEmail: 'Introduce una dirección de correo electrónico válida.', requiredMessage: 'Cuéntanos un poco sobre tu desafío.' },
   },
 };
