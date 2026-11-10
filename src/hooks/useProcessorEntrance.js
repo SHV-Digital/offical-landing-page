@@ -1,42 +1,42 @@
 import { useEffect } from 'react';
-import { holdEntrance, observeSettledEntrance } from '../utils/settledEntrance';
+import { observeSettledEntrance } from '../utils/settledEntrance';
 
+// Full length of the CSS startup choreography keyed on `data-startup`.
+export const STARTUP_MS = 1900;
+
+// One-time board startup. The poses and timings live in CSS:
+//   waiting -> flat, dark board    playing -> rise, draw, seat chips, light core
+// `data-startup` is only ever set here, so static HTML stays in its final state.
 export default function useProcessorEntrance(rootRef) {
   useEffect(() => {
     const root = rootRef.current;
-    const board = root.querySelector('.processor-board');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (preference.matches || typeof Element.prototype.animate !== 'function' || typeof IntersectionObserver !== 'function') return;
+    if (preference.matches || typeof IntersectionObserver !== 'function') return;
 
-    const animations = [];
+    let timer;
     let started = false;
-    let disposed = false;
+    let width = window.innerWidth;
     const settle = () => {
       started = true;
       stopWaiting();
-      animations.forEach((animation) => animation.cancel());
+      window.clearTimeout(timer);
       root.dataset.startup = 'done';
     };
     root.dataset.startup = 'waiting';
-    // Animate only the board's pose: no opacity/filter on its 3D parent,
-    // which would flatten the raised chips. CSS owns the final resting angle.
-    animations.push(board.animate([
-      { transform: 'translateY(42px) rotateX(26deg) rotateY(-10deg) rotateZ(-4deg) scale(0.94)' },
-      { transform: getComputedStyle(board).transform },
-    ], { id: 'services-board-startup', duration: 2200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
-
-    animations.forEach(holdEntrance);
-    const stopWaiting = observeSettledEntrance(board, () => {
+    const stopWaiting = observeSettledEntrance(root.querySelector('.service-processor'), () => {
       if (started || preference.matches) return;
       started = true;
       root.dataset.startup = 'playing';
-      animations.forEach((animation) => animation.play());
-      Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
-        if (!disposed) root.dataset.startup = 'done';
-      });
+      timer = window.setTimeout(() => { root.dataset.startup = 'done'; }, STARTUP_MS);
     });
 
-    const onResize = settle;
+    // Mobile browsers resize on scroll as their toolbars collapse: only a
+    // real width change invalidates the prepared pose.
+    const onResize = () => {
+      if (window.innerWidth === width) return;
+      width = window.innerWidth;
+      settle();
+    };
     const onPreferenceChange = () => { if (preference.matches) settle(); };
     const onVisibilityChange = () => { if (started && document.hidden) settle(); };
     root.addEventListener('pointerdown', settle, { capture: true });
@@ -45,9 +45,8 @@ export default function useProcessorEntrance(rootRef) {
     document.addEventListener('visibilitychange', onVisibilityChange);
     preference.addEventListener('change', onPreferenceChange);
     return () => {
-      disposed = true;
       stopWaiting();
-      animations.forEach((animation) => animation.cancel());
+      window.clearTimeout(timer);
       root.removeEventListener('pointerdown', settle, { capture: true });
       root.removeEventListener('focusin', settle);
       window.removeEventListener('resize', onResize);
