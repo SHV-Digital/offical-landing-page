@@ -39,7 +39,7 @@ export const translations = {
       { title: 'Conte o seu desafio', description: 'O que não funciona, o que faz falta ou a ideia que você quer tirar do papel.' },
       { title: 'Encontramos o caminho', description: 'Entendemos o seu contexto e definimos juntos uma solução que faça sentido.' },
       { title: 'Construímos e evoluímos', description: 'Transformamos o plano em software confiável e acompanhamos os próximos passos.' },
-    ], pauseAnimation: 'Pausar animações de Contato', resumeAnimation: 'Retomar animações de Contato', requiredEmail: 'Informe seu e-mail para que possamos responder.', invalidEmail: 'Informe um endereço de e-mail válido.', requiredMessage: 'Conte um pouco sobre o seu desafio.' },
+    ], name: 'Seu nome', namePlaceholder: 'Como podemos chamar você?', requiredName: 'Informe seu nome.', pauseAnimation: 'Pausar animações de Contato', resumeAnimation: 'Retomar animações de Contato', requiredEmail: 'Informe seu e-mail para que possamos responder.', invalidEmail: 'Informe um endereço de e-mail válido.', requiredMessage: 'Conte um pouco sobre o seu desafio.' },
   },
   en: {
     title: 'SHV Digital — Custom Software Development',
@@ -71,7 +71,7 @@ export const translations = {
       { title: 'Tell us your challenge', description: 'What isn’t working, what’s missing, or the idea you want to bring to life.' },
       { title: 'We find the right approach', description: 'We understand your context and define a practical solution together.' },
       { title: 'We build and evolve', description: 'We turn the plan into reliable software and support its next steps.' },
-    ], pauseAnimation: 'Pause Contact animations', resumeAnimation: 'Resume Contact animations', requiredEmail: 'Enter your email so we can reply.', invalidEmail: 'Enter a valid email address.', requiredMessage: 'Tell us a little about your challenge.' },
+    ], name: 'Your name', namePlaceholder: 'What should we call you?', requiredName: 'Enter your name.', pauseAnimation: 'Pause Contact animations', resumeAnimation: 'Resume Contact animations', requiredEmail: 'Enter your email so we can reply.', invalidEmail: 'Enter a valid email address.', requiredMessage: 'Tell us a little about your challenge.' },
   },
   es: {
     title: 'SHV Digital — Desarrollo de software a medida',
@@ -103,6 +103,6 @@ export const translations = {
       { title: 'Cuéntanos tu desafío', description: 'Lo que no funciona, lo que falta o la idea que quieres hacer realidad.' },
       { title: 'Encontramos el camino', description: 'Entendemos tu contexto y definimos juntos una solución que tenga sentido.' },
       { title: 'Construimos y evolucionamos', description: 'Transformamos el plan en software confiable y acompañamos los siguientes pasos.' },
-    ], pauseAnimation: 'Pausar animaciones de Contacto', resumeAnimation: 'Reanudar animaciones de Contacto', requiredEmail: 'Introduce tu correo electrónico para que podamos responder.', invalidEmail: 'Introduce una dirección de correo electrónico válida.', requiredMessage: 'Cuéntanos un poco sobre tu desafío.' },
+    ], name: 'Tu nombre', namePlaceholder: '¿Cómo podemos llamarte?', requiredName: 'Introduce tu nombre.', pauseAnimation: 'Pausar animaciones de Contacto', resumeAnimation: 'Reanudar animaciones de Contacto', requiredEmail: 'Introduce tu correo electrónico para que podamos responder.', invalidEmail: 'Introduce una dirección de correo electrónico válida.', requiredMessage: 'Cuéntanos un poco sobre tu desafío.' },
   },
 };

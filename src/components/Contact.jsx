@@ -1,5 +1,5 @@
 import { useId, useRef, useState, useSyncExternalStore } from 'react';
-import { ArrowUpRight, Code2, Mail, MessageSquare, Route } from 'lucide-react';
+import { ArrowUpRight, Code2, Mail, MessageSquare, Route, UserRound } from 'lucide-react';
 import WaveHeadline from './WaveHeadline';
 import useTextSpotlight from '../hooks/useTextSpotlight';
 import useContactMotion from '../hooks/useContactMotion';
@@ -59,6 +59,10 @@ export default function Contact({ content, locale }) {
             <input type="hidden" name="language" value={locale} />
             <h3 id={`${id}-form-title`}>{content.title}</h3>
             <p className="contact-form-description">{content.formDescription}</p>
+            <div className="contact-field">
+              <label htmlFor={`${id}-name`}>{content.name}</label>
+              <div className="contact-input-wrap"><UserRound size={18} aria-hidden="true" /><input id={`${id}-name`} type="text" name="name" required placeholder={content.namePlaceholder} autoComplete="name" onInvalid={(event) => event.target.setCustomValidity(content.requiredName)} onInput={(event) => event.target.setCustomValidity('')} /></div>
+            </div>
             <div className="contact-field">
               <label htmlFor={`${id}-email`}>{content.email}</label>
               <div className="contact-input-wrap"><Mail size={18} aria-hidden="true" /><input id={`${id}-email`} type="email" name="email" required placeholder={content.emailPlaceholder} autoComplete="email" onInvalid={validateEmail} onInput={(event) => event.target.setCustomValidity('')} /></div>
