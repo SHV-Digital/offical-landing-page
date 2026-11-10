@@ -14,7 +14,7 @@ export default function About({ content }) {
   useTextSpotlight(copyRef);
 
   return (
-    <section id="sobre" data-motion-scope data-animated={hydrated} data-paused={paused} aria-labelledby="about-title" className="about-section relative isolate py-24 md:py-32">
+    <section id="sobre" data-motion-scope data-animated={hydrated} data-paused={paused} aria-labelledby="about-title" className="about-section section-anchor relative isolate">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute right-[-15%] top-[5%] h-[650px] w-[650px] rounded-full bg-brand-purple/[0.07] blur-[150px]" />
         <div className="absolute bottom-0 left-[-15%] h-[500px] w-[500px] rounded-full bg-brand-blue/[0.04] blur-[130px]" />

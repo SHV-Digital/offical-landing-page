@@ -13,6 +13,36 @@ for (const { code } of locales) {
   assert.ok(html.includes('class="hero-headline-source spotlight-ink block"'), 'Headline source remains visible and unsplit in static HTML');
   const heroHtml = html.match(/<section\b[^>]*id="inicio"[\s\S]*?<\/section>/)[0];
   const aboutHtml = html.match(/<section\b[^>]*id="sobre"[\s\S]*?<\/section>/)[0];
+  const servicesHtml = html.match(/<section\b[^>]*id="servicos"[\s\S]*?<\/section>/)[0];
+  for (const id of ['sobre', 'diferenciais', 'servicos', 'contato']) {
+    assert.ok(new RegExp(`<section\\b[^>]*id="${id}"[^>]*class="[^"]*\\bsection-anchor\\b`).test(html), 'Every header destination uses the shared content-aligned anchor spacing');
+  }
+  assert.ok(servicesHtml.includes(content.services.headline), 'Services headline is localized and prerendered');
+  assert.ok(servicesHtml.includes(`aria-label="${content.services.activateAll}"`), 'Processor core has a localized accessible action');
+  assert.equal((servicesHtml.match(/class="service-chip service-chip-/g) || []).length, 4, 'Every service has a native chip button');
+  assert.equal((servicesHtml.match(/<article/g) || []).length, 4, 'All service descriptions are prerendered');
+  assert.ok(!/<article[^>]*\bhidden/.test(servicesHtml), 'Service details remain visible without JavaScript');
+  assert.ok(!servicesHtml.includes('processor-hint'), 'Services has no visible instruction beneath the board');
+  assert.ok(!servicesHtml.includes('data-startup="playing"'), 'Processor startup never hides or transforms prerendered HTML');
+  assert.ok(servicesHtml.includes('services-ambience'), 'Services includes the decorative ambient background');
+  assert.ok(servicesHtml.includes('data-reveal-group="copy"'), 'Services heading reveals as a single staggered group');
+  assert.ok(servicesHtml.includes('hero-headline-source spotlight-ink block'), 'Services shares the visible, unsplit wave heading source');
+  assert.equal((servicesHtml.match(/data-text-spotlight="true"/g) || []).length, 7 + content.services.cards.length * 4, 'Services heading, guides, and both detail variants share the pointer spotlight');
+  assert.ok(servicesHtml.includes('service-details-stage'), 'Detail variants share a size-reserving stage');
+  assert.ok(/class="service-panel service-all-panel" hidden="" inert=""/.test(servicesHtml), 'The inactive all-services panel stays hidden and inert in static HTML');
+  assert.ok(servicesHtml.includes(content.services.allTitle) && servicesHtml.includes(content.services.allDescription), 'The all-services overview is localized and prerendered');
+  assert.ok(servicesHtml.includes('04 / 04') && servicesHtml.includes('processor-backplane'), 'All-services mode has a complete count and independent board traces');
+  assert.ok(servicesHtml.includes('data-idle="true"'), 'Services starts without a selection');
+  assert.ok(!servicesHtml.includes('data-powered="true"'), 'All circuits and chips start unpowered');
+  assert.ok(!servicesHtml.includes('aria-pressed="true"'), 'No processor button starts selected');
+  assert.ok(servicesHtml.includes('00 / 04') && servicesHtml.includes(content.services.idleTitle) && servicesHtml.includes(content.services.idleDescription), 'The initial guide is localized and starts at zero');
+  assert.ok(servicesHtml.includes(content.services.pauseAnimation), 'Services text has a localized keyboard-accessible pause control');
+  assert.equal((servicesHtml.match(/class="service-icon-glyph"/g) || []).length, content.services.cards.length, 'Detail glyphs have independent animation layers');
+  assert.ok(!servicesHtml.includes('data-pointer='), 'Pointer icon effects are client-side enhancement only');
+  assert.ok(!/<div[^>]*data-reveal[^>]*class="services-system"/.test(servicesHtml), 'Board startup is independent of generic reveal transforms');
+  for (const service of content.services.cards) {
+    assert.ok(servicesHtml.includes(service.title) && servicesHtml.includes(service.description), 'All localized service content is available in static HTML');
+  }
   assert.equal((heroHtml.match(/data-text-spotlight="true"/g) || []).length, 3, 'Home text supports the pointer spotlight');
   assert.equal((aboutHtml.match(/data-text-spotlight="true"/g) || []).length, content.about.paragraphs.length + 2, 'About text shares the Home interaction pattern');
   assert.ok(!html.includes('about-panel'), 'About flows directly in the page rather than an enclosing card');
