@@ -71,13 +71,13 @@ export default function WaveHeadline({ text, paused, as: tag = 'h1', id, classNa
     animationsRef.current = animations;
     const syncPlayback = () => {
       const isPaused = layerRef.current.closest('[data-motion-scope]')?.dataset.paused === 'true';
-      const spotlight = heading.hasAttribute('data-spotlight');
+      const spotlight = heading.matches('[data-spotlight], [data-spotlight-fading]');
       animations.forEach((animation) => preference.matches || isPaused || spotlight ? animation.pause() : animation.play());
     };
     syncPlayback();
     preference.addEventListener('change', syncPlayback);
     const observer = new MutationObserver(syncPlayback);
-    observer.observe(heading, { attributes: true, attributeFilter: ['data-spotlight'] });
+    observer.observe(heading, { attributes: true, attributeFilter: ['data-spotlight', 'data-spotlight-fading'] });
     return () => {
       animations.forEach((animation) => animation.cancel());
       animationsRef.current = [];
@@ -88,7 +88,7 @@ export default function WaveHeadline({ text, paused, as: tag = 'h1', id, classNa
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const spotlight = sourceRef.current.parentElement.hasAttribute('data-spotlight');
+    const spotlight = sourceRef.current.parentElement.matches('[data-spotlight], [data-spotlight-fading]');
     animationsRef.current.forEach((animation) => paused || reduced || spotlight ? animation.pause() : animation.play());
   }, [paused, lines]);
 

@@ -20,15 +20,15 @@ export default function About({ content }) {
         <div className="absolute bottom-0 left-[-15%] h-[500px] w-[500px] rounded-full bg-brand-blue/[0.04] blur-[130px]" />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-        <div ref={copyRef} className="about-copy min-w-0">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+        <div ref={copyRef} data-reveal-group="copy" className="about-copy min-w-0">
           <p data-reveal data-text-spotlight className="hero-slogan text-spotlight mb-6 w-fit text-sm font-medium tracking-wide">
             <span className="spotlight-ink block"><span aria-hidden="true">// </span>{content.title}</span>
           </p>
           <WaveHeadline as="h2" id="about-title" text={content.headline} paused={paused} className="hero-headline text-spotlight relative text-4xl font-semibold leading-[1.12] tracking-tight md:text-5xl" />
-          <div className="mt-8 space-y-6">
+          <div className="about-editorial mt-8 space-y-6">
             {content.paragraphs.map((paragraph, index) => (
-              <p data-reveal data-text-spotlight key={paragraph} style={{ animationDelay: `${index * 0.65}s` }} className={`hero-description text-spotlight leading-relaxed text-neutral-400 ${index === 0 ? 'text-lg' : 'text-base'}`}>
+              <p data-reveal data-text-spotlight key={paragraph} className={`about-body text-spotlight ${index === 0 ? 'about-lead' : 'about-supporting'}`}>
                 <span className="spotlight-ink block">{paragraph}</span>
               </p>
             ))}

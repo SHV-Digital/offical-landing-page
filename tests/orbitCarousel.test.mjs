@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { nearestOrbitAngle, orbitPosition, wrapIndex } from '../src/utils/orbitCarousel.js';
+import { nearestOrbitAngle, orbitPosition, ORBIT_TIMING, wrapIndex } from '../src/utils/orbitCarousel.js';
 
 test('carousel indices wrap in either direction', () => {
   assert.equal(wrapIndex(-1, 3), 2);
@@ -42,4 +42,20 @@ test('a full rotation returns each card to the same position', () => {
     assert.ok(Math.abs(start.x - end.x) < 0.000001);
     assert.ok(Math.abs(start.y - end.y) < 0.000001);
   }
+});
+
+test('depth blur remains subtle and reaches zero at the front', () => {
+  const front = orbitPosition(0, 0, 3, 120, 80);
+  const side = orbitPosition(0, 1, 3, 120, 80);
+  const back = orbitPosition(Math.PI, 0, 3, 120, 80);
+  assert.equal(front.blur, 0);
+  assert.ok(side.blur > front.blur && side.blur < back.blur);
+  assert.ok(back.blur <= 2);
+  assert.equal(back.opacity, 1);
+});
+
+test('automatic rotation reserves reading time before a slower transition', () => {
+  assert.equal(ORBIT_TIMING.dwell, 4200);
+  assert.ok(ORBIT_TIMING.automatic > ORBIT_TIMING.manual);
+  assert.ok(ORBIT_TIMING.dwell > ORBIT_TIMING.automatic);
 });

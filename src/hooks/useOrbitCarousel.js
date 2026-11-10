@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { nearestOrbitAngle, orbitPosition, wrapIndex } from '../utils/orbitCarousel';
+import { nearestOrbitAngle, orbitPosition, ORBIT_TIMING, wrapIndex } from '../utils/orbitCarousel';
 
 export default function useOrbitCarousel(rootRef, count, onPauseChange) {
   const apiRef = useRef(null);
@@ -15,6 +15,7 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
     let destination = null;
     let current = 0;
     let selected = 0;
+    let restingMs = ORBIT_TIMING.dwell;
     let userPaused = false;
     let hovered = false;
     let focused = false;
@@ -26,6 +27,7 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
     let disposed = false;
     root.dataset.visible = String(inView && !document.hidden);
     root.dataset.paused = 'false';
+    root.dataset.orbitPhase = 'resting';
 
     const paint = () => {
       const next = wrapIndex(Math.round(-angle / (Math.PI * 2 / count)), count);
@@ -41,28 +43,54 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
         card.style.zIndex = position.zIndex;
         card.style.setProperty('--orbit-shade', position.shade);
         card.style.setProperty('--orbit-front', position.front);
+        card.style.setProperty('--orbit-blur', `${position.blur}px`);
         card.dataset.front = String(index === current);
       });
     };
 
     const canMove = () => !disposed && !preference.matches && inView && !document.hidden;
+    const beginSelection = (index, source) => {
+      selected = wrapIndex(index, count);
+      const to = nearestOrbitAngle(angle, selected, count);
+      if (Math.abs(to - angle) < 0.001) {
+        angle = to;
+        destination = null;
+        restingMs = ORBIT_TIMING.dwell;
+        delete root.dataset.transitioning;
+        root.dataset.orbitPhase = 'resting';
+        paint();
+        return;
+      }
+      destination = { from: angle, to, elapsed: 0, duration: source === 'automatic' ? ORBIT_TIMING.automatic : ORBIT_TIMING.manual, progress: 0, source };
+      root.dataset.transitioning = 'true';
+      root.dataset.orbitPhase = 'moving';
+    };
     const tick = (time) => {
       frame = null;
       if (!canMove()) { previousTime = null; return; }
       const elapsed = previousTime === null ? 0 : Math.min(time - previousTime, 50);
       previousTime = time;
-      if (destination !== null) {
+      const automaticAllowed = !userPaused && !hovered && !focused;
+      const manualMove = destination?.source === 'manual';
+      if (destination !== null && (manualMove || automaticAllowed)) {
         destination.elapsed += elapsed;
         destination.progress = Math.min(1, destination.elapsed / destination.duration);
         const t = destination.progress;
         const eased = t * t * t * (t * (t * 6 - 15) + 10);
         angle = destination.from + (destination.to - destination.from) * eased;
-        if (t === 1) { angle = destination.to; destination = null; delete root.dataset.transitioning; }
-      } else if (!userPaused && !hovered && !focused) {
-        angle -= elapsed * Math.PI * 2 / 27000;
+        if (t === 1) {
+          angle = destination.to;
+          destination = null;
+          restingMs = ORBIT_TIMING.dwell;
+          delete root.dataset.transitioning;
+          root.dataset.orbitPhase = 'resting';
+        }
+        paint();
+      } else if (destination === null && automaticAllowed) {
+        restingMs = Math.max(0, restingMs - elapsed);
+        if (restingMs === 0) beginSelection(current + 1, 'automatic');
       }
-      paint();
-      if (destination !== null || (!userPaused && !hovered && !focused)) frame = requestAnimationFrame(tick);
+      if (destination?.source === 'manual' || automaticAllowed) frame = requestAnimationFrame(tick);
       else previousTime = null;
     };
     const start = () => {
@@ -76,15 +104,13 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
     };
     const select = (index, focus = false) => {
       if (preference.matches) return;
-      selected = wrapIndex(index, count);
-      destination = { from: angle, to: nearestOrbitAngle(angle, selected, count), elapsed: 0, duration: 1100, progress: 0 };
-      root.dataset.transitioning = 'true';
+      beginSelection(index, 'manual');
       if (focus) root.querySelector(`[data-orbit-select="${wrapIndex(index, count)}"]`).focus({ preventScroll: true });
       start();
     };
     apiRef.current = {
       select,
-      step: (direction, focus = false) => select((destination === null ? current : selected) + direction, focus),
+      step: (direction, focus = false) => select((destination?.source === 'manual' ? selected : current) + direction, focus),
       togglePause: () => {
         userPaused = !userPaused;
         root.dataset.paused = String(userPaused);
@@ -106,6 +132,7 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
           card.style.removeProperty('z-index');
           card.style.removeProperty('--orbit-shade');
           card.style.removeProperty('--orbit-front');
+          card.style.removeProperty('--orbit-blur');
         });
       } else {
         root.dataset.enhanced = 'true';
@@ -158,6 +185,7 @@ export default function useOrbitCarousel(rootRef, count, onPauseChange) {
       delete root.dataset.visible;
       delete root.dataset.paused;
       delete root.dataset.transitioning;
+      delete root.dataset.orbitPhase;
       apiRef.current = null;
     };
   }, [rootRef, count, onPauseChange]);

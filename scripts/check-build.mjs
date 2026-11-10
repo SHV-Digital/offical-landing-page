@@ -19,7 +19,13 @@ for (const { code } of locales) {
   assert.ok(!html.includes('about-orbit-path'), 'Carousel has no decorative orbit lines behind the cards');
   assert.ok(!html.includes('class="headline-wave-line"'), 'Decorative line overlays are only added after hydration');
   assert.ok(html.includes(content.about.headline));
+  assert.ok(aboutHtml.includes('about-editorial'), 'About retains its readable editorial text column');
+  assert.ok(aboutHtml.includes('data-reveal-group="copy"'), 'About text is enhanced as one staggered entrance group');
+  assert.ok(!html.includes('data-spotlight-ready'), 'Spotlight enhancement does not alter static no-JavaScript text');
+  for (const paragraph of content.about.paragraphs) assert.ok(aboutHtml.includes(paragraph), 'All localized About copy is prerendered');
   assert.ok(html.includes(`aria-label="${content.about.carouselLabel}"`), 'About carousel has a localized accessible name');
+  assert.ok(html.includes('data-orbit-entrance="assemble"'), 'Carousel arrival is enhanced independently of its rotation');
+  assert.ok(!html.includes('data-entrance="playing"'), 'Cards are never hidden for an entrance in static HTML');
   assert.equal((html.match(/class="about-orbit-card"/g) || []).length, content.about.cards.length, 'Every carousel card is prerendered');
   for (const card of content.about.cards) assert.ok(html.includes(card.description), 'All carousel content remains available without JavaScript');
   assert.ok(html.includes(`aria-label="${content.hero.pauseAnimation}"`));

@@ -1,6 +1,7 @@
 import { useId, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Code2, Compass, Layers3 } from 'lucide-react';
 import useOrbitCarousel from '../hooks/useOrbitCarousel';
+import useOrbitEntrance from '../hooks/useOrbitEntrance';
 
 const icons = [Code2, Layers3, Compass];
 
@@ -8,6 +9,7 @@ export default function OrbitCarousel({ content, onPauseChange }) {
   const rootRef = useRef(null);
   const hintId = useId();
   const { active, paused, apiRef } = useOrbitCarousel(rootRef, content.cards.length, onPauseChange);
+  useOrbitEntrance(rootRef);
 
   const onKeyDown = (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
@@ -21,7 +23,7 @@ export default function OrbitCarousel({ content, onPauseChange }) {
   };
 
   return (
-    <div ref={rootRef} data-reveal role="region" aria-roledescription={content.carouselRole} aria-label={content.carouselLabel} aria-describedby={hintId} className="about-orbit min-w-0" onKeyDown={onKeyDown}>
+    <div ref={rootRef} data-orbit-entrance="assemble" role="region" aria-roledescription={content.carouselRole} aria-label={content.carouselLabel} aria-describedby={hintId} className="about-orbit min-w-0" onKeyDown={onKeyDown}>
       <p id={hintId} className="sr-only">{content.carouselHint}</p>
       <div className="about-orbit-stage">
         <div aria-hidden="true" className="about-orbit-scenery pointer-events-none absolute inset-0 overflow-hidden">

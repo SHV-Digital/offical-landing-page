@@ -337,8 +337,20 @@ html {
   50% { color: #ede7f6; text-shadow: 0 0 14px rgb(192 132 252 / 0.35), 0 0 28px rgb(168 85 247 / 0.15); }
 }
 
-/* A direct-manipulation layer: animated styles underneath retain their phase. */
-.text-spotlight { position: relative; isolation: isolate; }
+@property --spotlight-strength {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: true;
+}
+
+/* Blend the pointer layer with the existing text instead of replacing it. */
+.text-spotlight {
+  --spotlight-strength: 0;
+  position: relative;
+  isolation: isolate;
+  transition: --spotlight-strength 260ms ease, filter 250ms ease;
+}
+.text-spotlight[data-spotlight] { --spotlight-strength: 1; }
 .text-spotlight::before {
   content: '';
   position: absolute;
@@ -353,12 +365,10 @@ html {
   /* Fade fully inside a generous square, never at the text block's edges. */
   background: radial-gradient(circle closest-side, rgb(168 85 247 / 0.2) 0%, rgb(168 85 247 / 0.08) 35%, transparent 70%);
   filter: blur(12px);
-  opacity: 0;
-  transition: opacity 180ms ease;
+  opacity: var(--spotlight-strength);
 }
 
-.text-spotlight[data-spotlight]::before { opacity: 1; }
-[data-motion-scope] .text-spotlight[data-spotlight] { animation-play-state: paused; text-shadow: none !important; filter: none; }
+[data-motion-scope] .text-spotlight[data-text-spotlight]:is([data-spotlight], [data-spotlight-fading]) { animation-play-state: paused; }
 .text-spotlight[data-spotlight] .headline-wave-layer { visibility: hidden; }
 
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
@@ -373,6 +383,28 @@ html {
   }
 }
 
+@supports (background-clip: text) and (-webkit-text-fill-color: transparent) and (color: color-mix(in srgb, white, black)) {
+  .text-spotlight[data-spotlight-ready] .spotlight-ink {
+    /* currentColor keeps the idle slogan/body colour and breathing phase. */
+    color: inherit !important;
+    -webkit-text-fill-color: transparent;
+    background-image: radial-gradient(circle 125px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      color-mix(in srgb, currentColor, #d8b4fe calc(var(--spotlight-strength) * 100%)) 0%,
+      color-mix(in srgb, currentColor, #c084fc calc(var(--spotlight-strength) * 100%)) 25%,
+      color-mix(in srgb, currentColor, #a855f7 calc(var(--spotlight-strength) * 100%)) 43%,
+      color-mix(in srgb, currentColor, #f5f5f5 calc(var(--spotlight-strength) * 100%)) 80%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: inherit;
+  }
+  .text-spotlight[data-spotlight-ready] .headline-wave-layer {
+    visibility: visible;
+    opacity: calc(1 - var(--spotlight-strength));
+  }
+}
+
 .language-selector[open] .language-panel {
   transform-origin: top right;
   animation: language-panel-in 180ms ease-out;
@@ -381,6 +413,29 @@ html {
 @keyframes language-panel-in {
   from { opacity: 0; transform: translateY(-6px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Keep the editorial column quiet so the carousel remains the focal point. */
+.about-section { overflow-x: clip; }
+.about-body, .about-orbit-card p {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: normal;
+}
+.about-editorial { max-width: 46ch; }
+.about-lead {
+  max-width: 32ch;
+  color: #d6d1df;
+  font-size: 1.25rem;
+  font-weight: 450;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+}
+.about-supporting { color: #aaa6b1; font-size: 1rem; line-height: 1.8; }
+.about-section[data-animated="true"] .about-lead { animation: about-lead-breathe 8s ease-in-out infinite; }
+.about-section[data-paused="true"] .about-lead { animation-play-state: paused; }
+@keyframes about-lead-breathe {
+  0%, 100% { color: #c9c4d2; text-shadow: 0 0 0 transparent; }
+  50% { color: #ded6e9; text-shadow: 0 0 16px rgb(168 85 247 / 0.1); }
 }
 
 /* The carousel starts as a readable card list; only hydration adds the orbit. */
@@ -396,7 +451,7 @@ html {
   padding: 24px;
   background: linear-gradient(150deg, #1b1625, #11121b 80%);
   box-shadow: 0 24px 65px -24px rgb(0 0 0 / 0.95);
-  transition: border-color 400ms ease, box-shadow 400ms ease;
+  transition: border-color 400ms ease, box-shadow 400ms ease, filter 220ms ease;
 }
 .about-orbit-card::after {
   content: '';
@@ -406,7 +461,9 @@ html {
   pointer-events: none;
   background: #080910;
   opacity: var(--orbit-shade, 0);
+  transition: opacity 220ms ease;
 }
+.about-orbit-card:is(:hover, :focus-within)::after { opacity: 0; }
 
 @supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
   .about-orbit-card::before {
@@ -464,7 +521,9 @@ html {
   padding: 22px 18px;
   transform-origin: center;
   will-change: transform;
+  filter: blur(var(--orbit-blur, 0px));
 }
+.about-orbit[data-enhanced="true"] .about-orbit-card:is([data-front="true"], :hover, :focus-within) { filter: none; }
 .about-orbit[data-enhanced="true"] .about-orbit-card {
   border-color: rgb(168 85 247 / 0.16);
   box-shadow: 0 28px 60px -20px rgb(0 0 0 / 0.95), 0 0 40px -22px rgb(168 85 247 / calc(var(--orbit-front, 0) * 0.5));
@@ -557,8 +616,10 @@ html {
   [data-motion-scope][data-animated="true"] .hero-slogan { animation: none; }
   .hero-slogan { transition: none; }
   [data-motion-scope][data-animated="true"] .hero-description { animation: none; }
+  .about-section[data-animated="true"] .about-lead { animation: none; }
   .headline-wave-layer { display: none; }
   .text-spotlight::before { transition: none; }
+  .text-spotlight { transition: none; }
   .header-shell::before { animation: none; }
   .header-logo img, .header-logo::before, .header-nav-link, .header-nav-link::after, .header-contact, .header-contact::before { transition: none; }
   .header-nav-label, .language-trigger, .language-chevron, .language-option { transition: none; }
@@ -567,6 +628,7 @@ html {
   .header-logo:is(:hover, :focus-visible) img { transform: none; }
   .header-contact:is(:hover, :focus-visible)::before, .header-contact:is(:hover, :focus-visible)::after { animation: none; }
   .about-orbit-card, .about-orbit-card-light, .about-orbit-arrow, .about-orbit-dot span { transition: none; }
+  .about-orbit-card::after { transition: none; }
   .about-orbit-card::before, .about-orbit-card[data-front="true"] h3, .about-orbit-arrow:is(:hover, :focus-visible)::before, .about-orbit-arrow:is(:hover, :focus-visible)::after { animation: none; }
   .about-orbit-icon, .about-orbit-arrow svg, .about-orbit-arrow::before { transition: none; }
   .about-orbit-card:hover .about-orbit-icon, .about-orbit-card:focus-within .about-orbit-icon, .about-orbit-arrow:is(:hover, :focus-visible) svg { transform: none; }
@@ -578,8 +640,10 @@ html {
   [data-motion-scope][data-animated="true"] .hero-description { animation: none; text-shadow: none; color: CanvasText; }
   [data-motion-scope][data-animated="true"] .hero-headline { animation: none; background: none; color: CanvasText; }
   [data-motion-scope][data-animated="true"] .hero-slogan-ink { animation: none; background: none; color: CanvasText; }
+  .about-section[data-animated="true"] .about-lead { animation: none; text-shadow: none; color: CanvasText; }
   .text-spotlight::before { display: none; }
   .text-spotlight[data-spotlight] .spotlight-ink { background: none; color: CanvasText !important; }
+  .text-spotlight[data-spotlight-ready] .spotlight-ink { background: none; color: CanvasText !important; -webkit-text-fill-color: CanvasText; }
   .header-shell { border-color: CanvasText; }
   .header-shell::before, .header-contact::before, .header-contact::after { display: none; }
   .header-nav-link[aria-current="location"] { border-color: Highlight; color: LinkText; text-shadow: none; }
@@ -587,6 +651,7 @@ html {
   .language-trigger, .language-panel { border-color: ButtonText; background: Canvas; color: CanvasText; }
   .language-option[aria-current="page"] { border-color: Highlight; color: LinkText; background: Canvas; }
   .about-orbit-card { border-color: CanvasText; background: Canvas; }
+  .about-orbit[data-enhanced="true"] .about-orbit-card { filter: none; }
   .about-orbit-card[data-front="true"] { border-color: Highlight; }
   .about-orbit-arrow { color: ButtonText; border-color: ButtonText; background: ButtonFace; }
   .about-orbit-dot span { background: ButtonText; }
