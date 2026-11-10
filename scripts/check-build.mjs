@@ -15,6 +15,22 @@ for (const { code } of locales) {
   const aboutHtml = html.match(/<section\b[^>]*id="sobre"[\s\S]*?<\/section>/)[0];
   const servicesHtml = html.match(/<section\b[^>]*id="servicos"[\s\S]*?<\/section>/)[0];
   const differentialsHtml = html.match(/<section\b[^>]*id="diferenciais"[\s\S]*?<\/section>/)[0];
+  const contactHtml = html.match(/<section\b[^>]*id="contato"[\s\S]*?<\/section>/)[0];
+  for (const key of ['eyebrow', 'headline', 'title', 'description', 'formDescription', 'name', 'namePlaceholder', 'email', 'message', 'submit', 'note', 'processTitle', 'pauseAnimation']) {
+    assert.ok(contactHtml.includes(content.contact[key]), `Contact ${key} is localized and prerendered`);
+  }
+  assert.ok(contactHtml.includes('contact-journey') && contactHtml.includes('contact-form'), 'Contact has a readable journey and native form');
+  assert.equal((contactHtml.match(/class="contact-step-button"/g) || []).length, 3, 'Contact has three native step controls');
+  assert.ok(!contactHtml.includes('contact-cube') && !contactHtml.includes('data-connected'), 'Contact avoids arbitrary connection states');
+  for (const step of content.contact.steps) assert.ok(contactHtml.includes(step.title) && contactHtml.includes(step.description), 'Every step is localized and visible in prerendered HTML');
+  assert.ok(/<form[^>]*action="https:\/\/formspree.io\/f\/xrebnwwa"[^>]*method="POST"/.test(contactHtml), 'Contact preserves the existing submission endpoint');
+  assert.equal((contactHtml.match(/<label\b/g) || []).length, 3, 'All three contact fields have visible labels');
+  assert.ok(/<input(?=[^>]*type="text")(?=[^>]*name="name")(?=[^>]*autoComplete="name")(?=[^>]*required="")[^>]*>/.test(contactHtml), 'Name supports autofill and native required validation');
+  assert.deepEqual([...contactHtml.matchAll(/<(?:input|textarea)\b[^>]*name="(name|email|message)"/g)].map((match) => match[1]), ['name', 'email', 'message'], 'Contact fields appear in name, email, message order');
+  assert.ok(/<input(?=[^>]*type="email")(?=[^>]*name="email")(?=[^>]*required="")[^>]*>/.test(contactHtml), 'Email keeps native required validation');
+  assert.ok(/<textarea[^>]*name="message"[^>]*required=""/.test(contactHtml), 'Message remains required');
+  assert.ok(!contactHtml.includes('data-visible='), 'Contact motion visibility is a client-side enhancement');
+  assert.ok(!/class="processor-core-face"[\s\S]*?<span>SHV<\/span>/.test(servicesHtml), 'The Services core shows only the original symbol');
   assert.ok(differentialsHtml.includes(content.differentials.headline), 'Differentials has a localized visible headline');
   assert.ok(differentialsHtml.includes(content.differentials.assemblyDescription), 'The assembled S has a localized accessible explanation');
   assert.equal((differentialsHtml.match(/class="pillar-piece"/g) || []).length, 4, 'The S contains four individually animated pieces');

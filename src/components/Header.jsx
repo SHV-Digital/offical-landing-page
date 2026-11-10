@@ -21,10 +21,10 @@ export default function Header({ content, locale }) {
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-4 z-50 md:top-6">
-      <div className="mx-auto w-full min-w-0 max-w-6xl px-3 sm:px-6">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-3 sm:px-6">
         <div className="header-shell w-full min-w-0 rounded-[1.75rem] px-3 py-3 sm:px-6 lg:rounded-full">
-          <div className="flex min-w-0 items-center justify-between gap-2">
-            <a href="#inicio" aria-label={content.homeLabel} className="header-logo inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full">
+          <div className="flex min-w-0 items-center justify-between gap-2 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+            <a href="#inicio" aria-label={content.homeLabel} className="header-logo inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full lg:justify-self-start">
               <img src="/logo_square.png" alt="SHV Digital" width="32" height="32" className="h-8 w-8 object-contain" />
             </a>
 
@@ -32,7 +32,7 @@ export default function Header({ content, locale }) {
               {navigation}
             </nav>
 
-            <div className="relative flex shrink-0 items-center gap-2 sm:gap-4">
+            <div className="relative flex shrink-0 items-center gap-2 sm:gap-4 lg:justify-self-end">
               <LanguageSelector locale={locale} label={content.languageLabel} />
               <a href="#contato" aria-current={active === 'contato' ? 'location' : undefined} className="header-contact inline-flex min-h-11 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold text-white sm:px-5 sm:text-sm">
                 <span className="relative z-10">{content.contactLabel}</span>

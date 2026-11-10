@@ -69,7 +69,6 @@ export default function Services({ content }) {
                 <span className="processor-core-pins" aria-hidden="true" />
                 <span className="processor-core-face">
                   <img src="/logo_square.png" alt="" width="80" height="80" draggable="false" />
-                  <span>SHV</span>
                 </span>
               </button>
               {content.cards.map((service, index) => {
