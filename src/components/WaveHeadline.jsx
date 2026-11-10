@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 const LINE_DURATION_MS = 1500;
 
-export default function WaveHeadline({ text, paused }) {
+export default function WaveHeadline({ text, paused, as: tag = 'h1', id, className = 'hero-headline text-spotlight relative text-4xl font-semibold leading-[1.16] tracking-tight sm:text-5xl xl:text-[3.5rem]' }) {
+  const Heading = tag;
   const sourceRef = useRef(null);
   const layerRef = useRef(null);
   const animationsRef = useRef([]);
@@ -69,14 +70,14 @@ export default function WaveHeadline({ text, paused }) {
     ], { duration: lines.length * LINE_DURATION_MS, delay: index * LINE_DURATION_MS, iterations: Infinity, easing: 'linear' }));
     animationsRef.current = animations;
     const syncPlayback = () => {
-      const isPaused = layerRef.current.closest('.hero-section').dataset.paused === 'true';
-      const spotlight = heading.hasAttribute('data-spotlight');
+      const isPaused = layerRef.current.closest('[data-motion-scope]')?.dataset.paused === 'true';
+      const spotlight = heading.matches('[data-spotlight], [data-spotlight-fading]');
       animations.forEach((animation) => preference.matches || isPaused || spotlight ? animation.pause() : animation.play());
     };
     syncPlayback();
     preference.addEventListener('change', syncPlayback);
     const observer = new MutationObserver(syncPlayback);
-    observer.observe(heading, { attributes: true, attributeFilter: ['data-spotlight'] });
+    observer.observe(heading, { attributes: true, attributeFilter: ['data-spotlight', 'data-spotlight-fading'] });
     return () => {
       animations.forEach((animation) => animation.cancel());
       animationsRef.current = [];
@@ -87,18 +88,18 @@ export default function WaveHeadline({ text, paused }) {
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const spotlight = sourceRef.current.parentElement.hasAttribute('data-spotlight');
+    const spotlight = sourceRef.current.parentElement.matches('[data-spotlight], [data-spotlight-fading]');
     animationsRef.current.forEach((animation) => paused || reduced || spotlight ? animation.pause() : animation.play());
   }, [paused, lines]);
 
   return (
-    <h1 data-reveal data-text-spotlight className="hero-headline text-spotlight relative text-4xl font-semibold leading-[1.16] tracking-tight sm:text-5xl xl:text-[3.5rem]">
+    <Heading id={id} data-reveal data-text-spotlight className={className}>
       <span ref={sourceRef} className="hero-headline-source spotlight-ink block">{text}</span>
       <span ref={layerRef} aria-hidden="true" className="headline-wave-layer pointer-events-none absolute inset-0 select-none">
         {lines.map((line, index) => (
           <span key={`${index}-${line.text}`} className="headline-wave-line" style={{ left: line.left, top: line.top }}>{line.text}</span>
         ))}
       </span>
-    </h1>
+    </Heading>
   );
 }
