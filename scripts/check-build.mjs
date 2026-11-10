@@ -53,6 +53,10 @@ for (const { code } of locales) {
   assert.ok(!servicesHtml.includes('processor-hint'), 'Services has no visible instruction beneath the board');
   assert.ok(!servicesHtml.includes('data-startup="playing"'), 'Processor startup never hides or transforms prerendered HTML');
   assert.ok(servicesHtml.includes('services-ambience'), 'Services includes the decorative ambient background');
+  assert.ok(servicesHtml.includes('about-stage-frame') && !servicesHtml.includes('data-startup'), 'Services shares the About stage frame and is never staged in static HTML');
+  assert.equal((servicesHtml.match(/<svg class="processor-circuits"[^>]*aria-hidden="true"/g) || []).length, 2, 'Both circuit layouts are decorative');
+  assert.ok(servicesHtml.indexOf('service-chip-3') < servicesHtml.indexOf('class="processor-core"'), 'Keyboard order is services 01 to 04, then the core');
+  assert.ok(/id="service-details"[^>]*aria-live="polite"/.test(servicesHtml), 'The reading panel announces changes politely');
   assert.ok(servicesHtml.includes('data-reveal-group="copy"'), 'Services heading reveals as a single staggered group');
   assert.ok(servicesHtml.includes('hero-headline-source spotlight-ink block'), 'Services shares the visible, unsplit wave heading source');
   assert.equal((servicesHtml.match(/data-text-spotlight="true"/g) || []).length, 7 + content.services.cards.length * 4, 'Services heading, guides, and both detail variants share the pointer spotlight');
