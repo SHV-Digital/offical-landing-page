@@ -44,7 +44,7 @@ export default function usePageAnimations(mainRef) {
           { offset: 0, textShadow: '0 0 0 transparent' },
           { offset: 0.4, textShadow: '0 0 28px rgb(168 85 247 / 0.5)' },
           { offset: 1, textShadow: '0 0 0 transparent' },
-        ], { id: group.closest('#servicos') ? 'services-heading-arrival-glow' : 'about-heading-arrival-glow', duration: 2200, delay: 200, easing: 'ease-in-out' }));
+        ], { id: group.closest('#diferenciais') ? 'differentials-heading-arrival-glow' : group.closest('#servicos') ? 'services-heading-arrival-glow' : 'about-heading-arrival-glow', duration: 2200, delay: 200, easing: 'ease-in-out' }));
         track(glow);
         arrivals.push(glow);
       }

@@ -14,6 +14,18 @@ for (const { code } of locales) {
   const heroHtml = html.match(/<section\b[^>]*id="inicio"[\s\S]*?<\/section>/)[0];
   const aboutHtml = html.match(/<section\b[^>]*id="sobre"[\s\S]*?<\/section>/)[0];
   const servicesHtml = html.match(/<section\b[^>]*id="servicos"[\s\S]*?<\/section>/)[0];
+  const differentialsHtml = html.match(/<section\b[^>]*id="diferenciais"[\s\S]*?<\/section>/)[0];
+  assert.ok(differentialsHtml.includes(content.differentials.headline), 'Differentials has a localized visible headline');
+  assert.ok(differentialsHtml.includes(content.differentials.assemblyDescription), 'The assembled S has a localized accessible explanation');
+  assert.equal((differentialsHtml.match(/class="pillar-piece"/g) || []).length, 4, 'The S contains four individually animated pieces');
+  assert.ok(/<image[^>]*href="\/logo_square\.png"/.test(differentialsHtml), 'Pillars use the original SHV logo artwork, not a replacement S');
+  assert.equal((differentialsHtml.match(/class="pillar-face"/g) || []).length, 4, 'Every pillar face references the original logo');
+  assert.equal((differentialsHtml.match(/class="pillar-select"/g) || []).length, 4, 'Each differential retains a native keyboard control');
+  assert.ok(!differentialsHtml.includes('data-assembly="waiting"'), 'Static pillar HTML is never staged or hidden');
+  assert.ok(!differentialsHtml.includes('backdrop-blur'), 'Differentials is an open composition without enclosing cards');
+  for (const icon of ['shield-check', 'layers', 'sparkles', 'handshake']) assert.ok(differentialsHtml.includes(`lucide-${icon}`), 'Existing differential icons are preserved');
+  for (const item of content.differentials.cards) assert.ok(differentialsHtml.includes(item.title) && differentialsHtml.includes(item.description), 'Every differential remains visible in all prerendered locales');
+  assert.ok(differentialsHtml.includes(content.differentials.pauseAnimation), 'Differentials has a localized motion control');
   for (const id of ['sobre', 'diferenciais', 'servicos', 'contato']) {
     assert.ok(new RegExp(`<section\\b[^>]*id="${id}"[^>]*class="[^"]*\\bsection-anchor\\b`).test(html), 'Every header destination uses the shared content-aligned anchor spacing');
   }

@@ -23,7 +23,7 @@ export const translations = {
       { title: 'Soluções bem estruturadas', description: 'Arquitetura clara, modular e preparada para evolução contínua.' },
       { title: 'Direção técnica', description: 'Ajudamos a tomar decisões certas no momento certo, reduzindo riscos.' },
     ] },
-    differentials: { title: 'Diferenciais', description: 'Mais do que desenvolver software, entregamos clareza técnica, confiabilidade e produtos preparados para o futuro.', cards: [
+    differentials: { title: 'Diferenciais', headline: 'Pilares que nos tornam únicos.', assemblyDescription: 'O símbolo S original do logo da SHV Digital, dividido em quatro pilares que se unem: engenharia, arquitetura, experiência e parceria. Selecione um diferencial para destacar sua parte.', pauseAnimation: 'Pausar animações de Diferenciais', resumeAnimation: 'Retomar animações de Diferenciais', description: 'Mais do que desenvolver software, entregamos clareza técnica, confiabilidade e produtos preparados para o futuro.', cards: [
       { title: 'Engenharia de verdade', description: 'Código sólido, decisões técnicas conscientes e foco em qualidade desde a primeira linha.' },
       { title: 'Arquitetura pensada para crescer', description: 'Soluções desenhadas para evoluir com o negócio, evitando retrabalho e limitações futuras.' },
       { title: 'Experiência e acabamento', description: 'Cuidado extremo com UI, UX, performance e detalhes que elevam a percepção do produto.' },
@@ -51,7 +51,7 @@ export const translations = {
       { title: 'Well-structured solutions', description: 'Clear, modular architecture built for continuous evolution.' },
       { title: 'Technical guidance', description: 'We help you make the right decisions at the right time, reducing risk.' },
     ] },
-    differentials: { title: 'Why SHV', description: 'More than software development: we deliver technical clarity, reliability, and products ready for the future.', cards: [
+    differentials: { title: 'Why SHV', headline: 'The pillars that set us apart.', assemblyDescription: 'The original S symbol from the SHV Digital logo, divided into four pillars that come together: engineering, architecture, experience, and partnership. Select a differential to highlight its piece.', pauseAnimation: 'Pause Why SHV animations', resumeAnimation: 'Resume Why SHV animations', description: 'More than software development: we deliver technical clarity, reliability, and products ready for the future.', cards: [
       { title: 'Engineering that delivers', description: 'Solid code, thoughtful technical decisions, and a focus on quality from the very first line.' },
       { title: 'Architecture built to grow', description: 'Solutions designed to evolve with your business, avoiding rework and future limitations.' },
       { title: 'Experience and polish', description: 'Meticulous attention to UI, UX, performance, and the details that elevate your product.' },
@@ -79,7 +79,7 @@ export const translations = {
       { title: 'Soluciones bien estructuradas', description: 'Arquitectura clara, modular y preparada para una evolución continua.' },
       { title: 'Orientación técnica', description: 'Te ayudamos a tomar las decisiones correctas en el momento adecuado, reduciendo riesgos.' },
     ] },
-    differentials: { title: 'Por qué SHV', description: 'Más que desarrollar software, ofrecemos claridad técnica, fiabilidad y productos preparados para el futuro.', cards: [
+    differentials: { title: 'Por qué SHV', headline: 'Los pilares que nos hacen únicos.', assemblyDescription: 'El símbolo S original del logo de SHV Digital, dividido en cuatro pilares que se unen: ingeniería, arquitectura, experiencia y colaboración. Selecciona un diferencial para destacar su pieza.', pauseAnimation: 'Pausar animaciones de Por qué SHV', resumeAnimation: 'Reanudar animaciones de Por qué SHV', description: 'Más que desarrollar software, ofrecemos claridad técnica, fiabilidad y productos preparados para el futuro.', cards: [
       { title: 'Ingeniería de verdad', description: 'Código sólido, decisiones técnicas conscientes y un enfoque en la calidad desde la primera línea.' },
       { title: 'Arquitectura pensada para crecer', description: 'Soluciones diseñadas para evolucionar con el negocio, evitando retrabajos y limitaciones futuras.' },
       { title: 'Experiencia y acabado', description: 'Atención al detalle en UI, UX, rendimiento y todo lo que eleva la percepción del producto.' },
