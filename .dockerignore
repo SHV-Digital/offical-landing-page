@@ -1,0 +1,6 @@
+.git
+.prerender
+dist
+node_modules
+docs
+.env*

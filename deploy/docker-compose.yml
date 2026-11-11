@@ -1,0 +1,17 @@
+name: shv-digital-landing
+
+services:
+  shv-digital-landing:
+    # O site é gerado no build da imagem (vite build + prerender → dist/), então cada deploy recria o container
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: shv-digital-landing
+    container_name: shv-digital-landing
+    restart: unless-stopped
+    networks:
+      - cloudflared-net
+
+networks:
+  cloudflared-net:
+    external: true
